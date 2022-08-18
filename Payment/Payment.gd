@@ -269,11 +269,11 @@ func verify_payment():
 	
 	txid = $txid.text
 	# uncomment to test if this program works correctly (for Litecoin)
-	txid = "61a7667851da2d1395c26f4eaba7a14a3c1355ba80e1b35678327619a115d21e"
-	value_of_money = "0.00994188"
-	date_today = "08 Feb 2022"
-	time = "07:00:47"
-	time2 = "07:05:47"
+#	txid = "61a7667851da2d1395c26f4eaba7a14a3c1355ba80e1b35678327619a115d21e"
+#	value_of_money = "0.00994188"
+#	date_today = "08 Feb 2022"
+#	time = "07:00:47"
+#	time2 = "07:05:47"
 	
 	var bought_it = false
 	if txid in web_content:
