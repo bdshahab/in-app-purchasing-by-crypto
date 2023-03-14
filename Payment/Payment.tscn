@@ -1,0 +1,363 @@
+[gd_scene load_steps=11 format=3 uid="uid://sh1fm2drg2yk"]
+
+[ext_resource type="Texture2D" uid="uid://dstbbgwe7jnmm" path="res://Payment/Photos/back.png" id="2"]
+[ext_resource type="Script" path="res://Payment/Payment.gd" id="3"]
+[ext_resource type="Texture2D" uid="uid://ila1t8l1e68t" path="res://Payment/Photos/Bitcoin (BTC).png" id="4"]
+[ext_resource type="FontFile" uid="uid://dbs31ci8txjqw" path="res://Payment/UI/TheanoDidot-Regular.ttf" id="5_f0b31"]
+[ext_resource type="Texture2D" uid="uid://bs3kikpc7j0br" path="res://Payment/Photos/copy.png" id="8"]
+[ext_resource type="Texture2D" uid="uid://d1g8t23b7m21q" path="res://Payment/Photos/paste.png" id="9"]
+[ext_resource type="Texture2D" uid="uid://djn3u7cjfqfiv" path="res://Payment/Photos/help.png" id="10"]
+[ext_resource type="Texture2D" uid="uid://bbxyedhnw7uod" path="res://Payment/Photos/buy.png" id="11"]
+[ext_resource type="Theme" uid="uid://dh006a4e4gjqk" path="res://Payment/UI/theme.tres" id="12"]
+[ext_resource type="Texture2D" uid="uid://diwi3e83hsakq" path="res://Payment/Photos/internet_lost.png" id="13"]
+
+[node name="Payment" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("12")
+script = ExtResource("3")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.796078, 0.796078, 0.796078, 1)
+
+[node name="Label_select" type="Label" parent="."]
+self_modulate = Color(0, 0, 0, 1)
+layout_mode = 1
+offset_left = 4.0
+offset_right = 1006.0
+offset_bottom = 70.0
+text = "Choose a method and pay before time's up!"
+
+[node name="Label_time" type="Label" parent="."]
+self_modulate = Color(0, 0, 1, 1)
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -230.0
+offset_bottom = 92.0
+grow_horizontal = 0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 1
+theme_override_fonts/font = ExtResource("5_f0b31")
+theme_override_font_sizes/font_size = 70
+text = "00 : 00"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="currency_logo" type="TextureButton" parent="."]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 92.0
+offset_right = 134.0
+offset_bottom = 212.0
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("4")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="paymentList" type="OptionButton" parent="."]
+layout_mode = 0
+offset_left = 144.0
+offset_top = 96.0
+offset_right = 529.0
+offset_bottom = 208.0
+
+[node name="wallet_address" type="LineEdit" parent="."]
+layout_mode = 0
+offset_left = 537.0
+offset_top = 96.0
+offset_right = 1240.0
+offset_bottom = 208.0
+tooltip_text = "Address"
+editable = false
+
+[node name="copy_wallet_address" type="TextureButton" parent="."]
+layout_mode = 0
+offset_left = 1248.0
+offset_top = 96.0
+offset_right = 1361.0
+offset_bottom = 208.0
+tooltip_text = "copy address"
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("8")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Label_price" type="Label" parent="."]
+self_modulate = Color(0, 0, 0, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -676.0
+offset_top = -135.0
+offset_right = -547.0
+offset_bottom = -65.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Price:"
+
+[node name="price" type="LineEdit" parent="."]
+layout_mode = 0
+offset_left = 144.0
+offset_top = 230.0
+offset_right = 1240.0
+offset_bottom = 342.0
+tooltip_text = "Price"
+editable = false
+
+[node name="copy_price" type="TextureButton" parent="."]
+layout_mode = 0
+offset_left = 1248.0
+offset_top = 230.0
+offset_right = 1361.0
+offset_bottom = 342.0
+tooltip_text = "copy price"
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("8")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Label_txid" type="Label" parent="."]
+self_modulate = Color(0, 0, 0, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -675.0
+offset_top = -23.0
+offset_right = 204.0
+offset_bottom = 47.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Input your Transaction Hash ID (TXID):"
+
+[node name="txid" type="LineEdit" parent="."]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 448.0
+offset_right = 1240.0
+offset_bottom = 560.0
+tooltip_text = "Transaction Hash ID (TXID)"
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 100, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("5_f0b31")
+theme_override_font_sizes/font_size = 54
+
+[node name="paste_txid" type="TextureButton" parent="."]
+layout_mode = 0
+offset_left = 1248.0
+offset_top = 440.0
+offset_right = 1361.0
+offset_bottom = 552.0
+tooltip_text = "paste TXID"
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("9")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="HTTPRequest2" type="HTTPRequest" parent="."]
+
+[node name="txidDialog" type="AcceptDialog" parent="."]
+position = Vector2i(143, 147)
+size = Vector2i(1080, 474)
+dialog_text = "Your transaction ID does not exist!
+
+Copy the transaction ID and then enter it in the desired place.
+
+Make sure your internet connection is also established."
+dialog_autowrap = true
+
+[node name="Sprite2D" type="Sprite2D" parent="txidDialog"]
+position = Vector2(1000, 398)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("9")
+
+[node name="dateDialog" type="AcceptDialog" parent="."]
+position = Vector2i(143, 284)
+size = Vector2i(1080, 200)
+dialog_text = "Your payment receipt was recorded on another date and is not acceptable."
+dialog_autowrap = true
+
+[node name="timeDialog" type="AcceptDialog" parent="."]
+position = Vector2i(143, 284)
+size = Vector2i(1080, 200)
+dialog_text = "Your payment receipt was registered at another time and is not acceptable."
+dialog_autowrap = true
+
+[node name="netDialog" type="AcceptDialog" parent="."]
+position = Vector2i(267, 201)
+size = Vector2i(833, 367)
+dialog_text = "The Internet connection is lost!
+
+Try again or contact support in the \"about\" section."
+dialog_autowrap = true
+
+[node name="Sprite2D" type="Sprite2D" parent="netDialog"]
+position = Vector2(760, 268)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("13")
+
+[node name="priceDialog" type="AcceptDialog" parent="."]
+position = Vector2i(318, 248)
+size = Vector2i(745, 273)
+dialog_text = "This payment method is not possible now.
+
+Choose another mathod to pay."
+
+[node name="Help_section" type="Popup" parent="."]
+size = Vector2i(1366, 768)
+
+[node name="ColorRect" type="ColorRect" parent="Help_section"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.796078, 0.796078, 0.796078, 1)
+
+[node name="Label_select" type="RichTextLabel" parent="Help_section"]
+self_modulate = Color(0, 0, 0, 1)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -485.0
+offset_top = -285.0
+offset_right = 496.0
+offset_bottom = 180.0
+text = "You must first refer to this section so that a purchase order can be prepared for you according to the current price of the digital currency you want.
+After viewing the price, pay the amount to the address which is in front of the name of the digital currency.
+After paying the amount, enter the transaction ID.
+All these steps must be done before your time runs out; Otherwise, the payment will not be accepted.
+The program finds out the time and date through the Internet, and if your payment receipt is not received at the desired time and date, it will not be accepted."
+fit_content = true
+
+[node name="Exit_help" type="TextureButton" parent="Help_section"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -115.319
+offset_right = 250.0
+offset_bottom = -15.3191
+grow_vertical = 0
+texture_normal = ExtResource("2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(200, 130)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -130.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 167
+alignment = 1
+
+[node name="Back" type="TextureButton" parent="HBoxContainer"]
+custom_minimum_size = Vector2(250, 100)
+layout_mode = 2
+tooltip_text = "Back to menu"
+texture_normal = ExtResource("2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="help" type="TextureButton" parent="HBoxContainer"]
+custom_minimum_size = Vector2(200, 100)
+layout_mode = 2
+tooltip_text = "Help"
+texture_normal = ExtResource("10")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="copy_all" type="TextureButton" parent="HBoxContainer"]
+custom_minimum_size = Vector2(200, 100)
+layout_mode = 2
+tooltip_text = "Copy all"
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("8")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Verify" type="TextureButton" parent="HBoxContainer"]
+self_modulate = Color(0.768627, 0.0431373, 1, 1)
+custom_minimum_size = Vector2(200, 100)
+layout_mode = 2
+tooltip_text = "Pay"
+texture_normal = ExtResource("11")
+ignore_texture_size = true
+stretch_mode = 0
+
+[connection signal="pressed" from="currency_logo" to="." method="_on_currency_logo_pressed"]
+[connection signal="item_selected" from="paymentList" to="." method="_on_paymentList_item_selected"]
+[connection signal="button_down" from="copy_wallet_address" to="." method="_on_copy_wallet_address_button_down"]
+[connection signal="button_up" from="copy_wallet_address" to="." method="_on_copy_wallet_address_button_up"]
+[connection signal="mouse_entered" from="copy_wallet_address" to="." method="_on_copy_wallet_address_mouse_entered"]
+[connection signal="mouse_exited" from="copy_wallet_address" to="." method="_on_copy_wallet_address_mouse_exited"]
+[connection signal="pressed" from="copy_wallet_address" to="." method="_on_copy_wallet_address_pressed"]
+[connection signal="button_down" from="copy_price" to="." method="_on_copy_price_button_down"]
+[connection signal="button_up" from="copy_price" to="." method="_on_copy_price_button_up"]
+[connection signal="mouse_entered" from="copy_price" to="." method="_on_copy_price_mouse_entered"]
+[connection signal="mouse_exited" from="copy_price" to="." method="_on_copy_price_mouse_exited"]
+[connection signal="pressed" from="copy_price" to="." method="_on_copy_price_pressed"]
+[connection signal="text_changed" from="txid" to="." method="_on_txid_text_changed"]
+[connection signal="button_down" from="paste_txid" to="." method="_on_paste_txid_button_down"]
+[connection signal="button_up" from="paste_txid" to="." method="_on_paste_txid_button_up"]
+[connection signal="mouse_entered" from="paste_txid" to="." method="_on_paste_txid_mouse_entered"]
+[connection signal="mouse_exited" from="paste_txid" to="." method="_on_paste_txid_mouse_exited"]
+[connection signal="pressed" from="paste_txid" to="." method="_on_paste_txid_pressed"]
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+[connection signal="request_completed" from="HTTPRequest2" to="." method="_on_HTTPRequest2_request_completed"]
+[connection signal="confirmed" from="txidDialog" to="." method="_on_txidDialog_confirmed"]
+[connection signal="visibility_changed" from="txidDialog" to="." method="_on_txidDialog_visibility_changed"]
+[connection signal="confirmed" from="dateDialog" to="." method="_on_txidDialog_confirmed"]
+[connection signal="visibility_changed" from="dateDialog" to="." method="_on_txidDialog_visibility_changed"]
+[connection signal="confirmed" from="timeDialog" to="." method="_on_txidDialog_confirmed"]
+[connection signal="visibility_changed" from="timeDialog" to="." method="_on_txidDialog_visibility_changed"]
+[connection signal="confirmed" from="netDialog" to="." method="_on_netDialog_confirmed"]
+[connection signal="confirmed" from="priceDialog" to="." method="_on_priceDialog_confirmed"]
+[connection signal="visibility_changed" from="priceDialog" to="." method="_on_priceDialog_visibility_changed"]
+[connection signal="button_down" from="Help_section/Exit_help" to="." method="_on_Exit_help_button_down"]
+[connection signal="mouse_entered" from="Help_section/Exit_help" to="." method="_on_Exit_help_mouse_entered"]
+[connection signal="mouse_exited" from="Help_section/Exit_help" to="." method="_on_Exit_help_mouse_exited"]
+[connection signal="pressed" from="Help_section/Exit_help" to="." method="_on_Exit_help_pressed"]
+[connection signal="button_down" from="HBoxContainer/Back" to="." method="_on_Back_button_down"]
+[connection signal="mouse_entered" from="HBoxContainer/Back" to="." method="_on_Back_mouse_entered"]
+[connection signal="mouse_exited" from="HBoxContainer/Back" to="." method="_on_Back_mouse_exited"]
+[connection signal="pressed" from="HBoxContainer/Back" to="." method="_on_Back_pressed"]
+[connection signal="button_down" from="HBoxContainer/help" to="." method="_on_help_button_down"]
+[connection signal="mouse_entered" from="HBoxContainer/help" to="." method="_on_help_mouse_entered"]
+[connection signal="mouse_exited" from="HBoxContainer/help" to="." method="_on_help_mouse_exited"]
+[connection signal="pressed" from="HBoxContainer/help" to="." method="_on_help_pressed"]
+[connection signal="button_down" from="HBoxContainer/copy_all" to="." method="_on_copy_all_button_down"]
+[connection signal="button_up" from="HBoxContainer/copy_all" to="." method="_on_copy_all_button_up"]
+[connection signal="mouse_entered" from="HBoxContainer/copy_all" to="." method="_on_copy_all_mouse_entered"]
+[connection signal="mouse_exited" from="HBoxContainer/copy_all" to="." method="_on_copy_all_mouse_exited"]
+[connection signal="pressed" from="HBoxContainer/copy_all" to="." method="_on_copy_all_pressed"]
+[connection signal="button_down" from="HBoxContainer/Verify" to="." method="_on_Verify_button_down"]
+[connection signal="button_up" from="HBoxContainer/Verify" to="." method="_on_Verify_button_up"]
+[connection signal="mouse_entered" from="HBoxContainer/Verify" to="." method="_on_Verify_mouse_entered"]
+[connection signal="mouse_exited" from="HBoxContainer/Verify" to="." method="_on_Verify_mouse_exited"]
+[connection signal="pressed" from="HBoxContainer/Verify" to="." method="_on_Verify_pressed"]
