@@ -4,7 +4,9 @@ A simple way to enable in-app purchases using cryptocurrencies.
 By using the method in this program, you can make in-app purchases using cryptocurrencies.
 
 This program is written in Godot game engine and in GDScript language:
+
 (Godot version: 4.0)
+
 https://godotengine.org
 
 User only have limited time(for example: 10 min) to register payment. Otherwise, it will be close.
