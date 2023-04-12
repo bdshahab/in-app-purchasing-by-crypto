@@ -40,7 +40,7 @@ offset_top = -285.0
 offset_right = 496.0
 offset_bottom = 180.0
 custom_fonts/normal_font = SubResource( 2 )
-text = "To access all the features of this program, you need to pay the equivalent of $0.10 via digital currency.
+text = "To access all the features of this program, you need to pay the equivalent of $0.01 (one cent) via digital currency.
 First, you have to choose the type of digital currency you want to pay for and then send the money to our address in that digital currency.
 Note that pay the exact price as shown and not more or less; Otherwise, your payment will not be valid.
 This payment should be made at the specified time and not before or after."
