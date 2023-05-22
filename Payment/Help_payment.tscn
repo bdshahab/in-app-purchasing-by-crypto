@@ -1,60 +1,64 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=3 uid="uid://dkennsn83uq6s"]
 
-[ext_resource path="res://Payment/Photos/back.png" type="Texture2D" id=1]
-[ext_resource path="res://Payment/UI/TheanoDidot-Regular.ttf" type="FontFile" id=2]
+[ext_resource type="Theme" uid="uid://dh006a4e4gjqk" path="res://Payment/UI/theme.tres" id="1_dfbwr"]
+[ext_resource type="Texture2D" uid="uid://c322mptgm3mhl" path="res://Payment/UI/back.png" id="2_gv7rh"]
 
-[sub_resource type="GDScript" id=3]
+[sub_resource type="GDScript" id="3"]
 script/source = "extends Control
 
-func _on_Back_pressed():
-	var _s = get_tree().change_scene_to_file(\"res://Payment/Payment.tscn\")
-	queue_free()
+func _on_back_pressed():
+	get_tree().change_scene_to_file(\"res://Payment/Payment.tscn\")
 "
 
-[sub_resource type="FontFile" id=2]
-size = 32
-outline_size = 1
-outline_color = Color( 0, 0, 0, 1 )
-font_data = ExtResource( 2 )
+[sub_resource type="Theme" id="Theme_7uagg"]
 
-[sub_resource type="Theme" id=1]
-
-[node name="Control" type="Control"]
+[node name="Help_payment" type="Control"]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = SubResource( 3 )
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_dfbwr")
+script = SubResource("3")
 
 [node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 0.796078, 0.796078, 0.796078, 1 )
+color = Color(0.796078, 0.796078, 0.796078, 1)
 
 [node name="Label_select" type="RichTextLabel" parent="."]
-self_modulate = Color( 0, 0, 0, 1 )
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -485.0
-offset_top = -285.0
-offset_right = 496.0
-offset_bottom = 180.0
-custom_fonts/normal_font = SubResource( 2 )
-text = "To access all the features of this program, you need to pay the equivalent of $0.01 (one cent) via digital currency.
+self_modulate = Color(0, 0, 0, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 16.0
+offset_right = -20.0
+offset_bottom = -102.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "To access all the features of this program, you need to pay the equivalent of $0.01 (one cent)  via digital currency.
 First, you have to choose the type of digital currency you want to pay for and then send the money to our address in that digital currency.
 Note that pay the exact price as shown and not more or less; Otherwise, your payment will not be valid.
-This payment should be made at the specified time and not before or after."
+This payment should be made at the specified time and not before or after.
+Your payment remains valid until you exit the program; So, as long as you have not exited the program, you can use the full features of the program."
 
 [node name="Back" type="TextureButton" parent="."]
-offset_left = 8.0
-offset_top = 482.0
-offset_right = 208.0
-offset_bottom = 576.0
-theme = SubResource( 1 )
-texture_normal = ExtResource( 1 )
-expand = true
-__meta__ = {
-"_edit_group_": true
-}
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = -90.0
+offset_right = 325.0
+offset_bottom = -8.0
+grow_vertical = 0
+theme = SubResource("Theme_7uagg")
+texture_normal = ExtResource("2_gv7rh")
+ignore_texture_size = true
+stretch_mode = 0
 
-[connection signal="pressed" from="Back" to="." method="_on_Back_pressed"]
+[connection signal="pressed" from="Back" to="." method="_on_back_pressed"]
