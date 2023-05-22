@@ -4,19 +4,10 @@ extends Control
 #
 #1. User picks the method pay
 #2. app show the price in that currency and register date of today and tomorrow
-#3.User have to send exact that amount of money to the bdshahab address.
+#3. User have to send exact that amount of money to the bdshahab address.
 #4. User have to register payment TXID in limited time.
 #5. app verify the payment with registered price in that time
-#price check by https://www.livecoinwatch.com
-
-#price
-#<span class="price">$
-#tomorrow date
-#priceValidUntil":"
-#time now
-#"lastSeen":"
-#time now saves in this variable:
-#time1_price_checked
+#price check by https://coinmarketcap.com
 
 const APP_PRICE_A_DAY_IN_DOLLAR : float = 0.01
 const PAYMENTLIST_INIT_SELECTED : int = 3
@@ -43,34 +34,34 @@ var final_time_register : String = ""
 var my_wallet_address_to_receive_money : String = ""
 var value_of_money : String = ""
 var date_today : String = ""
-var date_tomorrow : String = ""
 var http_request: HTTPRequest
+var http_request_for_date: HTTPRequest
 var txid_error := false
 var price_error := false
 var final_body_content
 var final_body_content_price
 var verify_clicked = false
-
+const monthsh=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sept","Oct","Nov","Dec"]
 # 14 currency methods
 # name of currency / price check site / wallet address / verify site / Icon
 # all of the verify site are same as each other which guarda uses.
 const pay_list = [
-	["Bitcoin (BTC)", "https://www.livecoinwatch.com/price/Bitcoin-BTC", "1LQSzFZKE5vwiUS94toMG7r5M2nQ4X2muw", "https://bitcoinblockexplorers.com/tx/", "res://Payment/Photos/bitcoin (btc).png"],
-	["Bitcoin Cash (BCH)", "https://www.livecoinwatch.com/price/BitcoinCash-BCH", "bitcoincash:qzhr6lc9r64c3wg3jnndqaxzpyxeghdp2s57w5wgwu", "https://bchblockexplorer.com/tx/", "res://Payment/Photos/bitcoin cash (bch).png"],
-	["Bitcoin Gold (BTG)", "https://www.livecoinwatch.com/price/BitcoinGold-BTG", "GJbYu4YviyCi8azMV6ZAvdhjJTcigdmnPV", "https://btgexplorer.com/tx/", "res://Payment/Photos/bitcoin gold (btg).png"],
-	["Dash (DASH)", "https://www.livecoinwatch.com/price/Dash-DASH", "Xn5HwktiWJfgKydTDjodBTjJDA6tVxzAho", "https://dashblockexplorer.com/tx/", "res://Payment/Photos/dash (dash).png"],
-	["DigiByte (DGB)", "https://www.livecoinwatch.com/price/DigiByte-DGB", "D97CQ5pV1AukRY1FJTSW3CFkJtUZgdwJq4", "https://digibyteblockexplorer.com/tx/", "res://Payment/Photos/digibyte (dgb).png"],
-	["Dogecoin (DOGE)", "https://www.livecoinwatch.com/price/Dogecoin-DOGE", "D5YP7CggUUkS3fu1B7RjhjJ7jvNu6A4Ksx", "https://dogeblocks.com/tx/", "res://Payment/Photos/dogecoin (doge).png"],
-	["Ethereum (ETH)", "https://www.livecoinwatch.com/price/Ethereum-ETH", "0x80D3CA7528cF05118131dBa3d7852Db2685c4b9E", "https://ethblockexplorer.org/tx/", "res://Payment/Photos/ethereum (eth).png"],
-	["FIRO (FIRO)", "https://www.livecoinwatch.com/price/FIRO-FIRO", "a5R3Z4XBjj9oQS6kMgtfT5kMYMnA8Qx2Ga", "https://firoblockexplorers.com/tx/", "res://Payment/Photos/firo (firo).png"],
-	["Komodo (KMD)", "https://www.livecoinwatch.com/price/Komodo-KMD", "RQzp2jDRhRMrzBJZobGtUQhkQfcnfXdxWz", "https://komodoblockexplorer.com/tx/", "res://Payment/Photos/komodo (kmd).png"],
-	["Litecoin (LTC)", "https://www.livecoinwatch.com/price/Litecoin-LTC", "LRQ6TBVXsEVPApbCY79bV1d9LR8E7JiuDd", "https://litecoinblockexplorer.net/tx/", "res://Payment/Photos/litecoin (ltc).png"],
-	["Qtum (QTUM)", "https://www.livecoinwatch.com/price/Qtum-QTUM", "QXFD7QitfegWXf4n4F9bVLU9HXqESgRVWq", "https://qtumblockexplorer.com/tx/", "res://Payment/Photos/qtum (qtum).png"],
-	["Ravencoin (RVN)", "https://www.livecoinwatch.com/price/Ravencoin-RVN", "RLMJbB268ayzGtJokjimNiLgdAccF8yv21", "https://rvnblockexplorer.com/tx/", "res://Payment/Photos/ravencoin (rvn).png"],
-	["ReddCoin (RDD)", "https://www.livecoinwatch.com/price/ReddCoin-RDD", "RvawiN6Ues4gxdu52JkKLQ7cKYSDDYwkUQ", "https://rddblockexplorer.com/tx/", "res://Payment/Photos/reddcoin (rdd).png"],
-	["Verge (XVG)", "https://www.livecoinwatch.com/price/Verge-XVG", "DKY9rZfiw6qShLvWzKZCmuKJdiadDyhnVr", "https://xvgblockexplorer.com/tx/", "res://Payment/Photos/verge (xvg).png"],
-	["Vertcoin (VTC)", "https://www.livecoinwatch.com/price/Vertcoin-VTC", "VmLS1YQuRVJT73ZkQyQNKWUPUCEsC95MSJ", "https://vtcblocks.com/tx/", "res://Payment/Photos/vertcoin (vtc).png"],
-	["Zcash (ZEC)", "https://www.livecoinwatch.com/price/Zcash-ZEC", "t1gFJup6Mri4mZ1Pgqgzqmz2a3hg66Cpyga", "https://zecblockexplorer.com/tx/", "res://Payment/Photos/zcash (zec).png"],
+	["Bitcoin (BTC)", "https://coinmarketcap.com/currencies/bitcoin", "1LQSzFZKE5vwiUS94toMG7r5M2nQ4X2muw", "https://bitcoinblockexplorers.com/tx/", "res://Payment/Photos/bitcoin (btc).png"],
+	["Bitcoin Cash (BCH)", "https://coinmarketcap.com/currencies/bitcoin-cash", "bitcoincash:qzhr6lc9r64c3wg3jnndqaxzpyxeghdp2s57w5wgwu", "https://bchblockexplorer.com/tx/", "res://Payment/Photos/bitcoin cash (bch).png"],
+	["Bitcoin Gold (BTG)", "https://coinmarketcap.com/currencies/bitcoin-gold", "GJbYu4YviyCi8azMV6ZAvdhjJTcigdmnPV", "https://btgexplorer.com/tx/", "res://Payment/Photos/bitcoin gold (btg).png"],
+	["Dash (DASH)", "https://coinmarketcap.com/currencies/dash", "Xn5HwktiWJfgKydTDjodBTjJDA6tVxzAho", "https://dashblockexplorer.com/tx/", "res://Payment/Photos/dash (dash).png"],
+	["DigiByte (DGB)", "https://coinmarketcap.com/currencies/digibyte", "D97CQ5pV1AukRY1FJTSW3CFkJtUZgdwJq4", "https://digibyteblockexplorer.com/tx/", "res://Payment/Photos/digibyte (dgb).png"],
+	["Dogecoin (DOGE)", "https://coinmarketcap.com/currencies/dogecoin", "D5YP7CggUUkS3fu1B7RjhjJ7jvNu6A4Ksx", "https://dogeblocks.com/tx/", "res://Payment/Photos/dogecoin (doge).png"],
+	["Ethereum (ETH)", "https://coinmarketcap.com/currencies/ethereum", "0x80D3CA7528cF05118131dBa3d7852Db2685c4b9E", "https://ethblockexplorer.org/tx/", "res://Payment/Photos/ethereum (eth).png"],
+	["FIRO (FIRO)", "https://coinmarketcap.com/currencies/firo", "a5R3Z4XBjj9oQS6kMgtfT5kMYMnA8Qx2Ga", "https://firoblockexplorers.com/tx/", "res://Payment/Photos/firo (firo).png"],
+	["Komodo (KMD)", "https://coinmarketcap.com/currencies/komodo", "RQzp2jDRhRMrzBJZobGtUQhkQfcnfXdxWz", "https://komodoblockexplorer.com/tx/", "res://Payment/Photos/komodo (kmd).png"],
+	["Litecoin (LTC)", "https://coinmarketcap.com/currencies/litecoin", "LRQ6TBVXsEVPApbCY79bV1d9LR8E7JiuDd", "https://litecoinblockexplorer.net/tx/", "res://Payment/Photos/litecoin (ltc).png"],
+	["Qtum (QTUM)", "https://coinmarketcap.com/currencies/qtum", "QXFD7QitfegWXf4n4F9bVLU9HXqESgRVWq", "https://qtumblockexplorer.com/tx/", "res://Payment/Photos/qtum (qtum).png"],
+	["Ravencoin (RVN)", "https://coinmarketcap.com/currencies/ravencoin", "RLMJbB268ayzGtJokjimNiLgdAccF8yv21", "https://rvnblockexplorer.com/tx/", "res://Payment/Photos/ravencoin (rvn).png"],
+	["ReddCoin (RDD)", "https://coinmarketcap.com/currencies/redd", "RvawiN6Ues4gxdu52JkKLQ7cKYSDDYwkUQ", "https://rddblockexplorer.com/tx/", "res://Payment/Photos/reddcoin (rdd).png"],
+	["Verge (XVG)", "https://coinmarketcap.com/currencies/verge", "DKY9rZfiw6qShLvWzKZCmuKJdiadDyhnVr", "https://xvgblockexplorer.com/tx/", "res://Payment/Photos/verge (xvg).png"],
+	["Vertcoin (VTC)", "https://coinmarketcap.com/currencies/vertcoin", "VmLS1YQuRVJT73ZkQyQNKWUPUCEsC95MSJ", "https://vtcblocks.com/tx/", "res://Payment/Photos/vertcoin (vtc).png"],
+	["Zcash (ZEC)", "https://coinmarketcap.com/currencies/zcash", "t1gFJup6Mri4mZ1Pgqgzqmz2a3hg66Cpyga", "https://zecblockexplorer.com/tx/", "res://Payment/Photos/zcash (zec).png"],
 ]
 
 func _ready():
@@ -83,10 +74,13 @@ func _ready():
 	$currency_logo.texture_normal = load(pay_list[$paymentList.selected][4])
 	reset_time()
 	http_request = HTTPRequest.new()
+	http_request_for_date = HTTPRequest.new()
 	add_child(http_request)
+	add_child(http_request_for_date)
 	txid_error = false
 	price_error = false
 	http_request.connect("request_completed",Callable(self,"_on_HTTPRequest_request_completed"))
+	http_request_for_date.connect("request_completed",Callable(self,"_on_HTTPRequest_for_date_request_completed"))
 	first_http_call()
 	$currency_logo.tooltip_text = $paymentList.text
 
@@ -98,11 +92,23 @@ func first_http_call():
 	$paymentList.disabled = true
 	$HBoxContainer/Verify.disabled = true
 	$HBoxContainer/Verify.self_modulate = disable_color
+	get_date_http_call()
+
+func get_date_http_call():
+	if http_request_for_date.is_processing():
+		return
+	var error = http_request_for_date.request("https://time.is/UTC")
+	if error != OK:
+		$netDialog.show()
+		return
 
 func reset_time():
 	$Label_time.text = INIT_TIME_TEXT
 	time_of_payment = MAX_TIME_OF_PAYMENT
 	$Label_time.self_modulate = GREEN_COLOR
+	if http_request_for_date != null:
+		http_request_for_date.cancel_request()
+		get_date_http_call()
 
 func set_remaining_time():
 	if time_of_payment <= 0:
@@ -118,25 +124,32 @@ func set_remaining_time():
 	$Label_time.text = output
 
 func change_date_format(date: String):
+	date = date.replace(",", "")
+	var splitted = date.split(" ")
+	if splitted.size() != 3:
+		return date
+	var year = splitted[2]
+	var month = splitted[0]
+	var day = splitted[1]
+	for i in range(monthsh.size()):
+		if month.substr(0, 3) == monthsh[i]:
+			month = monthsh[i]
+			break
+	# May 19 2023
+	return day + " " + month + " " + year
+
+func change_date_format_from_standard(date: String):
 	var splitted = date.split("-")
 	if splitted.size() != 3:
 		return date
 	var year = splitted[0]
 	var month = splitted[1]
 	var day = splitted[2]
-	match(month):
-		'01': month = 'Jan'
-		'02': month = 'Feb'
-		'03': month = 'Mar'
-		'04': month = 'Apr'
-		'05': month = 'May'
-		'06': month = 'Jun'
-		'07': month = 'Jul'
-		'08': month = 'Aug'
-		'09': month = 'Sep'
-		'10': month = 'Oct'
-		'11': month = 'Nov'
-		'12': month = 'Dec'
+	for i in range(monthsh.size()):
+		if int(month) == i + 1:
+			month = monthsh[i]
+			break
+	# May 19 2023
 	return day + " " + month + " " + year
 
 func _on_Timer_timeout():
@@ -181,7 +194,6 @@ func _on_Verify_pressed():
 func _on_HTTPRequest_request_completed(_result, _response_code, _headers, _body):
 	# for manually exception handling!
 	final_body_content_price = _body
-	
 	if txid_error:
 		return
 	if _result != 0 or _body.size() < time_of_payment:
@@ -190,64 +202,57 @@ func _on_HTTPRequest_request_completed(_result, _response_code, _headers, _body)
 	else:
 		checking_price()
 
+func _on_HTTPRequest_for_date_request_completed(_result, _response_code, _headers, _body):
+	# for manually exception handling!
+	if txid_error:
+		return
+	if _result != 0 or _body.size() < time_of_payment:
+		$netDialog.show()
+		return
+	else:
+		# here get date
+		var regex = RegEx.new()
+		regex.compile("(\\w+) (\\d{1,2}), (\\d{4})")
+		var result = regex.search(_body.get_string_from_utf8()) # search the string for the pattern
+		if result: # if a match is found
+			date_today = change_date_format(result.get_string(0))
+		regex = RegEx.new()
+		regex.compile("(\\d{2}):(\\d{2}):(\\d{2})")
+		var result2 = regex.search(_body.get_string_from_utf8()) # search the string for the pattern
+		if result2: # if a match is found
+			time1_price_checked = result2.get_string(0)
+
+func get_price_of_this_currency(text: String):
+	var the_array = text.split("with a 24-hour trading volume")
+	text = the_array[0]
+	text = text.right(80)
+	var regex = RegEx.new() # create a new RegEx object
+	regex.compile("price.*\\$?(\\d{1,3}(,\\d{3})*(\\.\\d+)?)( USD)?") # compile a pattern that matches the "price" word, followed by any number of any characters, followed by an optional dollar sign, followed by a capture group that matches one to three digits, followed by zero or more groups of a comma and three digits, followed by an optional dot and one or more digits, followed by an optional space and "USD"
+	var result = regex.search(text) # search the string for the pattern
+	if result: # if a match is found
+		var output = result.get_string(0).split(" USD")[0]
+		output = output.split("$")[1] #get price afte dollar sign
+		output = output.replace(",", "") # replace the comma with an empty string
+		return output
+	else: # if no match is found
+		return null
+
 func checking_price():
 	if price_error:
 		return
 	var content = final_body_content_price.get_string_from_utf8()
-	web_content_price = content
-	var array = web_content_price.find("lastSeen\":\"")
-	if not txid_error and (web_content_price.length() < MAX_TIME_OF_PAYMENT):
+	var crypto_in_dollar = float(get_price_of_this_currency(content))
+	var array = content.find("price")
+	if not txid_error and (content.length() < MAX_TIME_OF_PAYMENT):
 		$netDialog.show()
 		return
 	elif array == -1:
 		$netDialog.show()
 		return
 	elif not verify_clicked:
-		date_today = web_content_price.substr(array + 11, 10)
-		var text1 = content.split("priceValidUntil", true)
-		if text1.size() < 2:
-			$netDialog.show()
-			return
-		text1 = text1[1].split("offerCount", true)[0]
-		var today_array = text1.split("\"", true)
-		if today_array.size() < 3:
-			$netDialog.show()
-			return
-		text1 = today_array[2]
-		
-		var date_tomorrow_array = text1.split("T", true)
-		if date_tomorrow_array.size() < 2:
-			$netDialog.show()
-			return
-		date_tomorrow = date_tomorrow_array[0]
-		var time_array = text1.split("T", true)
-		if time_array.size() < 2:
-			$netDialog.show()
-			return
-		time1_price_checked = time_array[1]
-		time_array = time1_price_checked.split(".", true)
-		if time_array.size() < 2:
-			$netDialog.show()
-			return
-		time1_price_checked = time_array[0]
 		init_time_register = ""
 		final_time_register = ""
 		init_time_register = time1_price_checked
-
-		var splitted = content.split("<span class=\"price\">$", true)
-		if splitted.size() < 2:
-			$netDialog.show()
-			return
-		var text2 = splitted[1].split("</span>", true)
-		if text2.size() < 2:
-			$netDialog.show()
-			return
-		var crypto_in_dollar = float(text2[0])
-		var date_valid_price_array = content.split("priceValidUntil\":\"", true)
-		if date_valid_price_array.size() < 2:
-			$netDialog.show()
-			return
-		var date_valid_price = date_valid_price_array[1]
 		var user_price = APP_PRICE_A_DAY_IN_DOLLAR / crypto_in_dollar
 		if user_price < MINIMUM_LIMIT_PRICE:
 			$priceDialog.show()
@@ -256,13 +261,40 @@ func checking_price():
 			user_price = "%.8f" % user_price
 			$price.text = user_price
 			value_of_money = user_price
-			date_tomorrow = date_valid_price.substr(0, 10)
 			my_wallet_address_to_receive_money = pay_list[$paymentList.selected][2]
 			txid = $txid.text
 		_on_txid_text_changed(txid)
 		$paymentList.disabled = false
 		reset_time()
 		$Timer.start()
+
+func get_tomorrow_by_date(date_year_month_day: String):
+	# get "2023-05-18" and returns "2023-05-19"
+	var the_date = date_year_month_day.split(" ")
+	match the_date[0]:
+		monthsh[0]: the_date[0] = '01'
+		monthsh[1]: the_date[0] = '02'
+		monthsh[2]: the_date[0] = '03'
+		monthsh[3]: the_date[0] = '04'
+		monthsh[4]: the_date[0] = '05'
+		monthsh[5]: the_date[0] = '06'
+		monthsh[6]: the_date[0] = '07'
+		monthsh[7]: the_date[0] = '08'
+		monthsh[8]: the_date[0] = '09'
+		monthsh[9]: the_date[0] = '10'
+		monthsh[10]: the_date[0] = '11'
+		monthsh[11]: the_date[0] = '12'
+	var date = {
+		"year": the_date[2],
+		"month": the_date[0],
+		"day": the_date[1],
+		"hour": 0,
+		"minute": 0,
+		"second": 0
+	}
+	var unix_time = Time.get_unix_time_from_datetime_dict(date)
+	var tomorrow = (Time.get_date_dict_from_unix_time(unix_time + 24 * 60 * 60))
+	return str(tomorrow["year"]) + "-" + str(tomorrow["month"]) + "-" + str(tomorrow["day"])
 
 # This method checks the receipt of the payment site like this:
 # https://litecoinblockexplorer.net/tx/61a7667851da2d1395c26f4eaba7a14a3c1355ba80e1b35678327619a115d21e
@@ -271,20 +303,32 @@ func verify_payment():
 		return
 	
 	txid = $txid.text
+	date_today = change_date_format(date_today)
+	var date_tomorrow = get_tomorrow_by_date(date_today)
+	date_tomorrow = change_date_format_from_standard(date_tomorrow)
+	var bought_it = false
+	var money_passed = false
+	var date_passed = true
+	var wallet_passed = false
+	var time_passed = true
+	# Price in input (without fee) or in output (after considering fee) comes after these phrase.
+	const prefix_total = 'put</p><p class="title is-6">'
+	# we have to look at address if and only if it comes after /address/ phrase.
+	my_wallet_address_to_receive_money = "/address/" + my_wallet_address_to_receive_money
+	############################################################################
 	# uncomment to test if this program works correctly (for Litecoin)
 #	txid = "61a7667851da2d1395c26f4eaba7a14a3c1355ba80e1b35678327619a115d21e"
 #	value_of_money = "0.00994188"
 #	date_today = "08 Feb 2022"
+#	date_tomorrow = "09 Feb 2022"
 #	time1_price_checked = "07:00:47"
 #	time2_payment_registered = "07:05:47"
-	date_today = change_date_format(date_today)
-	date_tomorrow = change_date_format(date_tomorrow)
-	var bought_it = false
-	var date_passed = true
-	var time_passed = true
-	if txid in web_content:
+	############################################################################
+	if txid in web_content:#web_content_price
 		if my_wallet_address_to_receive_money in web_content:
-			if value_of_money in web_content:
+			wallet_passed = true
+			if (prefix_total + value_of_money) in web_content:
+				money_passed = true
 				if (date_today in web_content) or (date_tomorrow in web_content):
 					if check_time(time2_payment_registered) and compare_times(time1_price_checked, time2_payment_registered):
 						if day_changed:
@@ -306,7 +350,11 @@ func verify_payment():
 		get_tree().change_scene_to_file("res://Payment/You_Bought_this.tscn")
 		return
 	else:
-		if not time_passed:
+		if not wallet_passed:
+			$walletDialog.show()
+		elif not money_passed:
+			$moneyDialog.show()
+		elif not time_passed:
 			$timeDialog.show()
 		elif not date_passed:
 			$dateDialog.show()
@@ -424,12 +472,17 @@ func _on_HTTPRequest2_request_completed(_result, _response_code, _headers, _body
 		return
 	else:
 		web_content = final_body_content.get_string_from_utf8()
-		date_tomorrow = change_date_format(date_tomorrow)
 		var time2_array = web_content.find("UTC</p></div><div")
 		if time2_array == -1:
 			$txidDialog.show()
 			return
-		time2_payment_registered = web_content.substr(time2_array - 8, 8)
+		##******************************
+		var regex = RegEx.new()
+		regex.compile("(\\d{2}):(\\d{2}):(\\d{2})")
+		var result2 = regex.search(web_content)
+		if result2: # if a match is found
+			time2_payment_registered = result2.get_string(0)
+		##******************************
 		verify_payment()
 
 func _on_Back_pressed():
