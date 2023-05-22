@@ -1,15 +1,18 @@
-[gd_scene load_steps=11 format=3 uid="uid://sh1fm2drg2yk"]
+[gd_scene load_steps=13 format=3 uid="uid://sh1fm2drg2yk"]
 
-[ext_resource type="Texture2D" uid="uid://dstbbgwe7jnmm" path="res://Payment/Photos/back.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://dest4o6lgml1o" path="res://Payment/Photos/back.png" id="2"]
 [ext_resource type="Script" path="res://Payment/Payment.gd" id="3"]
-[ext_resource type="Texture2D" uid="uid://ila1t8l1e68t" path="res://Payment/Photos/Bitcoin (BTC).png" id="4"]
-[ext_resource type="FontFile" uid="uid://dbs31ci8txjqw" path="res://Payment/UI/TheanoDidot-Regular.ttf" id="5_f0b31"]
-[ext_resource type="Texture2D" uid="uid://bs3kikpc7j0br" path="res://Payment/Photos/copy.png" id="8"]
-[ext_resource type="Texture2D" uid="uid://d1g8t23b7m21q" path="res://Payment/Photos/paste.png" id="9"]
-[ext_resource type="Texture2D" uid="uid://djn3u7cjfqfiv" path="res://Payment/Photos/help.png" id="10"]
-[ext_resource type="Texture2D" uid="uid://bbxyedhnw7uod" path="res://Payment/Photos/buy.png" id="11"]
+[ext_resource type="Texture2D" uid="uid://fwqaru7iv443" path="res://Payment/Photos/bitcoin (btc).png" id="4"]
+[ext_resource type="FontFile" uid="uid://ct2apt5gkmron" path="res://Payment/UI/TheanoDidot-Regular.ttf" id="5_f0b31"]
+[ext_resource type="Texture2D" uid="uid://b0g3hv2fo18jb" path="res://Payment/Photos/copy.png" id="8"]
+[ext_resource type="Texture2D" uid="uid://ba4ki03ndi4l4" path="res://Payment/Photos/paste.png" id="9"]
+[ext_resource type="Texture2D" uid="uid://dm3c03g7sq83y" path="res://Assets/UI/back.png" id="9_pm3nl"]
+[ext_resource type="Texture2D" uid="uid://bje067nhinef" path="res://Payment/Photos/help.png" id="10"]
+[ext_resource type="Texture2D" uid="uid://cl3ajypln0vpp" path="res://Payment/Photos/buy.png" id="11"]
 [ext_resource type="Theme" uid="uid://dh006a4e4gjqk" path="res://Payment/UI/theme.tres" id="12"]
-[ext_resource type="Texture2D" uid="uid://diwi3e83hsakq" path="res://Payment/Photos/internet_lost.png" id="13"]
+[ext_resource type="Texture2D" uid="uid://c7gkjmqio80s4" path="res://Payment/Photos/internet_lost.png" id="13"]
+
+[sub_resource type="Theme" id="Theme_tfgma"]
 
 [node name="Payment" type="Control"]
 layout_mode = 3
@@ -195,7 +198,19 @@ texture = ExtResource("9")
 [node name="dateDialog" type="AcceptDialog" parent="."]
 position = Vector2i(143, 284)
 size = Vector2i(1080, 200)
-dialog_text = "Your payment receipt was recorded on another date and is not acceptable."
+dialog_text = "Your payment receipt was registered on another date and is not acceptable."
+dialog_autowrap = true
+
+[node name="walletDialog" type="AcceptDialog" parent="."]
+position = Vector2i(143, 284)
+size = Vector2i(1080, 200)
+dialog_text = "Your payment receipt was sent to another address and is not acceptable."
+dialog_autowrap = true
+
+[node name="moneyDialog" type="AcceptDialog" parent="."]
+position = Vector2i(143, 284)
+size = Vector2i(1080, 200)
+dialog_text = "Your payment receipt is not registered with the correct price and is not acceptable."
 dialog_autowrap = true
 
 [node name="timeDialog" type="AcceptDialog" parent="."]
@@ -240,16 +255,15 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -485.0
-offset_top = -285.0
-offset_right = 496.0
-offset_bottom = 180.0
+offset_left = -658.0
+offset_top = -359.0
+offset_right = 642.0
+offset_bottom = 241.0
 text = "You must first refer to this section so that a purchase order can be prepared for you according to the current price of the digital currency you want.
 After viewing the price, pay the amount to the address which is in front of the name of the digital currency.
 After paying the amount, enter the transaction ID.
 All these steps must be done before your time runs out; Otherwise, the payment will not be accepted.
 The program finds out the time and date through the Internet, and if your payment receipt is not received at the desired time and date, it will not be accepted."
-fit_content = true
 
 [node name="Exit_help" type="TextureButton" parent="Help_section"]
 anchors_preset = 2
@@ -273,14 +287,14 @@ anchor_bottom = 1.0
 offset_top = -130.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_constants/separation = 167
+theme_override_constants/separation = 170
 alignment = 1
 
 [node name="Back" type="TextureButton" parent="HBoxContainer"]
-custom_minimum_size = Vector2(250, 100)
+custom_minimum_size = Vector2(200, 100)
 layout_mode = 2
-tooltip_text = "Back to menu"
-texture_normal = ExtResource("2")
+theme = SubResource("Theme_tfgma")
+texture_normal = ExtResource("9_pm3nl")
 ignore_texture_size = true
 stretch_mode = 0
 
@@ -334,6 +348,10 @@ stretch_mode = 0
 [connection signal="visibility_changed" from="txidDialog" to="." method="_on_txidDialog_visibility_changed"]
 [connection signal="confirmed" from="dateDialog" to="." method="_on_txidDialog_confirmed"]
 [connection signal="visibility_changed" from="dateDialog" to="." method="_on_txidDialog_visibility_changed"]
+[connection signal="confirmed" from="walletDialog" to="." method="_on_txidDialog_confirmed"]
+[connection signal="visibility_changed" from="walletDialog" to="." method="_on_txidDialog_visibility_changed"]
+[connection signal="confirmed" from="moneyDialog" to="." method="_on_txidDialog_confirmed"]
+[connection signal="visibility_changed" from="moneyDialog" to="." method="_on_txidDialog_visibility_changed"]
 [connection signal="confirmed" from="timeDialog" to="." method="_on_txidDialog_confirmed"]
 [connection signal="visibility_changed" from="timeDialog" to="." method="_on_txidDialog_visibility_changed"]
 [connection signal="confirmed" from="netDialog" to="." method="_on_netDialog_confirmed"]
