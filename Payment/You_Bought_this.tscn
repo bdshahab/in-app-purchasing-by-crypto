@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://cehnkrutnmhat"]
 
-[ext_resource type="Texture2D" uid="uid://ceytjewkrri41" path="res://Payment/Photos/buy.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://cl3ajypln0vpp" path="res://Payment/Photos/buy.png" id="1"]
 [ext_resource type="Script" path="res://Payment/You_Bought_this.gd" id="3"]
 [ext_resource type="Theme" uid="uid://dh006a4e4gjqk" path="res://Payment/UI/theme.tres" id="4"]
 
