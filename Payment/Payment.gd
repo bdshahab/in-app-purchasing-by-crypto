@@ -171,7 +171,8 @@ func _on_Timer_timeout():
 func _on_Verify_pressed():
 	$paymentList.disabled = true
 	$paymentList.self_modulate = "#1FFF72"
-	if not verify_clicked:
+	if not $HTTPRequest2.is_processing():
+		$HTTPRequest2.cancel_request()
 		var error = $HTTPRequest2.request(pay_list[$paymentList.selected][3] + $txid.text)
 		if error != OK:
 			$netDialog.show()
@@ -187,7 +188,7 @@ func _on_Verify_pressed():
 		if error != OK:
 			$netDialog.show()
 			return
-#	verify_clicked = true
+		verify_clicked = true
 	$HBoxContainer/Verify.disabled = true
 	$HBoxContainer/Verify.self_modulate = disable_color
 
@@ -406,6 +407,8 @@ func _on_paste_txid_pressed():
 	_on_txid_text_changed($txid.text)
 
 func _on_txid_text_changed(_new_text):
+	if $HTTPRequest2.is_processing():
+		return
 	if verify_clicked and $txid.text.length() > 0:
 		$HBoxContainer/Verify.disabled = false
 		$HBoxContainer/Verify.self_modulate = enable_color
