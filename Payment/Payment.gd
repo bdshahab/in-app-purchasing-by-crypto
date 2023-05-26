@@ -169,6 +169,7 @@ func _on_Timer_timeout():
 		get_tree().change_scene_to_file("res://Main/Main.tscn")
 
 func _on_Verify_pressed():
+	$txid.text = remove_all_whitespace($txid.text)
 	$paymentList.disabled = true
 	$paymentList.self_modulate = "#1FFF72"
 	if not $HTTPRequest2.is_processing():
@@ -302,7 +303,6 @@ func get_tomorrow_by_date(date_year_month_day: String):
 func verify_payment():
 	if txid_error:
 		return
-	
 	txid = $txid.text
 	date_today = change_date_format(date_today)
 	var date_tomorrow = get_tomorrow_by_date(date_today)
@@ -518,10 +518,6 @@ func _on_priceDialog_visibility_changed():
 
 func _on_Exit_help_pressed():
 	$Help_section.hide()
-
-func _on_netDialog_confirmed():
-	get_tree().change_scene_to_file("res://Main/Main.tscn")
-	return
 
 func _on_paste_txid_mouse_entered():
 	$paste_txid.self_modulate = "929fe8"
