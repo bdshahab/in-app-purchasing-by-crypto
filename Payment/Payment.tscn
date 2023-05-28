@@ -354,7 +354,6 @@ stretch_mode = 0
 [connection signal="visibility_changed" from="moneyDialog" to="." method="_on_txidDialog_visibility_changed"]
 [connection signal="confirmed" from="timeDialog" to="." method="_on_txidDialog_confirmed"]
 [connection signal="visibility_changed" from="timeDialog" to="." method="_on_txidDialog_visibility_changed"]
-[connection signal="confirmed" from="netDialog" to="." method="_on_netDialog_confirmed"]
 [connection signal="confirmed" from="priceDialog" to="." method="_on_priceDialog_confirmed"]
 [connection signal="visibility_changed" from="priceDialog" to="." method="_on_priceDialog_visibility_changed"]
 [connection signal="button_down" from="Help_section/Exit_help" to="." method="_on_Exit_help_button_down"]
