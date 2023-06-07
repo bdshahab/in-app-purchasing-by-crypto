@@ -314,6 +314,8 @@ func verify_payment():
 	var time_passed = true
 	# Price in input (without fee) or in output (after considering fee) comes after these phrase.
 	const prefix_total = 'put</p><p class="title is-6">'
+	# Another prefix for money is "value":0.00994188 which is only for Total Output
+	const prefix_total2 = "\"value\":"
 	# we have to look at address if and only if it comes after /address/ phrase.
 	my_wallet_address_to_receive_money = "/address/" + my_wallet_address_to_receive_money
 	############################################################################
@@ -328,7 +330,7 @@ func verify_payment():
 	if txid in web_content:#web_content_price
 		if my_wallet_address_to_receive_money in web_content:
 			wallet_passed = true
-			if (prefix_total + value_of_money) in web_content:
+			if (prefix_total + value_of_money) in web_content or (prefix_total2 + value_of_money) in web_content:
 				money_passed = true
 				if (date_today in web_content) or (date_tomorrow in web_content):
 					if check_time(time2_payment_registered) and compare_times(time1_price_checked, time2_payment_registered):
