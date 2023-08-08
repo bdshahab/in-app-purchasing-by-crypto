@@ -240,7 +240,7 @@ func get_price_of_this_currency(text: String):
 		return null
 
 func checking_price():
-	if price_error:
+	if price_error or final_body_content_price == null:
 		return
 	var content = final_body_content_price.get_string_from_utf8()
 	var crypto_in_dollar = float(get_price_of_this_currency(content))
