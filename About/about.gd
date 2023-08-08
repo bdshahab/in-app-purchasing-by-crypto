@@ -99,14 +99,14 @@ func _on_tiktok_pressed():
 func _on_tumblr_pressed():
 	OS.shell_open($social_media/hb3/tumblr.tooltip_text)
 
-func _on_twitter_pressed():
-	OS.shell_open($social_media/hb3/twitter.tooltip_text)
-
 func _on_vk_pressed():
 	OS.shell_open($social_media/hb3/vk.tooltip_text)
 
 func _on_wordpress_pressed():
 	OS.shell_open($social_media/hb3/wordpress.tooltip_text)
+
+func _on_x_pressed():
+	OS.shell_open($social_media/hb3/x.tooltip_text)
 
 func _on_youtube_pressed():
 	OS.shell_open($social_media/hb3/youtube.tooltip_text)
