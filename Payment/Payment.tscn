@@ -1,16 +1,20 @@
-[gd_scene load_steps=13 format=3 uid="uid://sh1fm2drg2yk"]
+[gd_scene load_steps=17 format=3 uid="uid://sh1fm2drg2yk"]
 
-[ext_resource type="Texture2D" uid="uid://dest4o6lgml1o" path="res://Payment/Photos/back.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://c2egpquik051s" path="res://Payment/Photos/back.png" id="2"]
 [ext_resource type="Script" path="res://Payment/Payment.gd" id="3"]
-[ext_resource type="Texture2D" uid="uid://fwqaru7iv443" path="res://Payment/Photos/bitcoin (btc).png" id="4"]
-[ext_resource type="FontFile" uid="uid://ct2apt5gkmron" path="res://Payment/UI/TheanoDidot-Regular.ttf" id="5_f0b31"]
-[ext_resource type="Texture2D" uid="uid://b0g3hv2fo18jb" path="res://Payment/Photos/copy.png" id="8"]
-[ext_resource type="Texture2D" uid="uid://ba4ki03ndi4l4" path="res://Payment/Photos/paste.png" id="9"]
-[ext_resource type="Texture2D" uid="uid://dm3c03g7sq83y" path="res://Assets/UI/back.png" id="9_pm3nl"]
-[ext_resource type="Texture2D" uid="uid://bje067nhinef" path="res://Payment/Photos/help.png" id="10"]
-[ext_resource type="Texture2D" uid="uid://cl3ajypln0vpp" path="res://Payment/Photos/buy.png" id="11"]
+[ext_resource type="Texture2D" uid="uid://3p1l2s6ts5ba" path="res://Payment/Photos/bitcoin (btc).png" id="4"]
+[ext_resource type="FontFile" uid="uid://ctt18vyac5gj3" path="res://Payment/UI/TheanoDidot-Regular.ttf" id="5_f0b31"]
+[ext_resource type="Texture2D" uid="uid://x1mhnv7e2wef" path="res://Payment/Photos/calendar.png" id="7_utjer"]
+[ext_resource type="Texture2D" uid="uid://bnlvpoyqi3pqk" path="res://Payment/Photos/copy.png" id="8"]
+[ext_resource type="Texture2D" uid="uid://d00a26egdmuy7" path="res://Payment/Photos/wallet.png" id="8_jv6n0"]
+[ext_resource type="Texture2D" uid="uid://dkl0rmem24r3n" path="res://Payment/Photos/paste.png" id="9"]
+[ext_resource type="Texture2D" uid="uid://c5grv18bhubs" path="res://Payment/Photos/money.png" id="9_mqsbs"]
+[ext_resource type="Texture2D" uid="uid://dmtj5bxtvo8lf" path="res://Payment/Photos/help.png" id="10"]
+[ext_resource type="Texture2D" uid="uid://bw57glj8auleq" path="res://Payment/Photos/clock.png" id="10_bi1pu"]
+[ext_resource type="Texture2D" uid="uid://duseg58mypo8m" path="res://Payment/Photos/buy.png" id="11"]
 [ext_resource type="Theme" uid="uid://dh006a4e4gjqk" path="res://Payment/UI/theme.tres" id="12"]
-[ext_resource type="Texture2D" uid="uid://c7gkjmqio80s4" path="res://Payment/Photos/internet_lost.png" id="13"]
+[ext_resource type="Texture2D" uid="uid://cc8thgoexo1vp" path="res://Payment/Photos/methods.png" id="12_umrkj"]
+[ext_resource type="Texture2D" uid="uid://b461rflx75u8q" path="res://Payment/Photos/internet_lost.png" id="13"]
 
 [sub_resource type="Theme" id="Theme_tfgma"]
 
@@ -36,9 +40,10 @@ color = Color(0.796078, 0.796078, 0.796078, 1)
 [node name="Label_select" type="Label" parent="."]
 self_modulate = Color(0, 0, 0, 1)
 layout_mode = 1
-offset_left = 4.0
-offset_right = 1006.0
-offset_bottom = 70.0
+offset_left = 12.0
+offset_top = 10.0
+offset_right = 1014.0
+offset_bottom = 80.0
 text = "Choose a method and pay before time's up!"
 
 [node name="Label_time" type="Label" parent="."]
@@ -65,6 +70,7 @@ offset_left = 4.0
 offset_top = 92.0
 offset_right = 134.0
 offset_bottom = 212.0
+focus_mode = 0
 mouse_default_cursor_shape = 2
 texture_normal = ExtResource("4")
 ignore_texture_size = true
@@ -93,6 +99,7 @@ offset_top = 96.0
 offset_right = 1361.0
 offset_bottom = 208.0
 tooltip_text = "copy address"
+focus_mode = 0
 mouse_default_cursor_shape = 2
 texture_normal = ExtResource("8")
 ignore_texture_size = true
@@ -106,10 +113,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -676.0
-offset_top = -135.0
-offset_right = -547.0
-offset_bottom = -65.0
+offset_left = -674.0
+offset_top = -132.0
+offset_right = -545.0
+offset_bottom = -62.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "Price:"
@@ -130,6 +137,7 @@ offset_top = 230.0
 offset_right = 1361.0
 offset_bottom = 342.0
 tooltip_text = "copy price"
+focus_mode = 0
 mouse_default_cursor_shape = 2
 texture_normal = ExtResource("8")
 ignore_texture_size = true
@@ -171,6 +179,7 @@ offset_top = 440.0
 offset_right = 1361.0
 offset_bottom = 552.0
 tooltip_text = "paste TXID"
+focus_mode = 0
 mouse_default_cursor_shape = 2
 texture_normal = ExtResource("9")
 ignore_texture_size = true
@@ -196,28 +205,47 @@ scale = Vector2(0.5, 0.5)
 texture = ExtResource("9")
 
 [node name="dateDialog" type="AcceptDialog" parent="."]
-position = Vector2i(143, 284)
-size = Vector2i(1080, 200)
+position = Vector2i(143, 184)
+size = Vector2i(1080, 400)
 dialog_text = "Your payment receipt was registered on another date and is not acceptable."
 dialog_autowrap = true
 
+[node name="Sprite2D" type="Sprite2D" parent="dateDialog"]
+position = Vector2(940.9, 275)
+scale = Vector2(0.41, 0.41)
+texture = ExtResource("7_utjer")
+
 [node name="walletDialog" type="AcceptDialog" parent="."]
-position = Vector2i(143, 284)
-size = Vector2i(1080, 200)
+position = Vector2i(143, 184)
+size = Vector2i(1080, 400)
 dialog_text = "Your payment receipt was sent to another address and is not acceptable."
 dialog_autowrap = true
 
+[node name="Sprite2D" type="Sprite2D" parent="walletDialog"]
+position = Vector2(950, 255)
+scale = Vector2(0.495, 0.495)
+texture = ExtResource("8_jv6n0")
+
 [node name="moneyDialog" type="AcceptDialog" parent="."]
-position = Vector2i(143, 284)
-size = Vector2i(1080, 200)
+position = Vector2i(137, 184)
+size = Vector2i(1080, 400)
 dialog_text = "Your payment receipt is not registered with the correct price and is not acceptable."
 dialog_autowrap = true
 
+[node name="Sprite2D" type="Sprite2D" parent="moneyDialog"]
+position = Vector2(950, 300)
+texture = ExtResource("9_mqsbs")
+
 [node name="timeDialog" type="AcceptDialog" parent="."]
-position = Vector2i(143, 284)
-size = Vector2i(1080, 200)
+position = Vector2i(143, 184)
+size = Vector2i(1080, 400)
 dialog_text = "Your payment receipt was registered at another time and is not acceptable."
 dialog_autowrap = true
+
+[node name="Sprite2D" type="Sprite2D" parent="timeDialog"]
+position = Vector2(980, 300)
+scale = Vector2(0.38, 0.38)
+texture = ExtResource("10_bi1pu")
 
 [node name="netDialog" type="AcceptDialog" parent="."]
 position = Vector2i(267, 201)
@@ -228,19 +256,25 @@ Try again or contact support in the \"about\" section."
 dialog_autowrap = true
 
 [node name="Sprite2D" type="Sprite2D" parent="netDialog"]
-position = Vector2(760, 268)
+position = Vector2(760, 300)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("13")
 
 [node name="priceDialog" type="AcceptDialog" parent="."]
-position = Vector2i(318, 248)
-size = Vector2i(745, 273)
+position = Vector2i(310, 184)
+size = Vector2i(745, 400)
 dialog_text = "This payment method is not possible now.
 
 Choose another mathod to pay."
 
+[node name="Sprite2D" type="Sprite2D" parent="priceDialog"]
+position = Vector2(620, 300)
+texture = ExtResource("12_umrkj")
+
 [node name="Help_section" type="Popup" parent="."]
+mode = 2
 size = Vector2i(1366, 768)
+content_scale_mode = 1
 
 [node name="ColorRect" type="ColorRect" parent="Help_section"]
 anchors_preset = 15
@@ -293,8 +327,9 @@ alignment = 1
 [node name="Back" type="TextureButton" parent="HBoxContainer"]
 custom_minimum_size = Vector2(200, 100)
 layout_mode = 2
+focus_mode = 0
 theme = SubResource("Theme_tfgma")
-texture_normal = ExtResource("9_pm3nl")
+texture_normal = ExtResource("2")
 ignore_texture_size = true
 stretch_mode = 0
 
@@ -302,6 +337,7 @@ stretch_mode = 0
 custom_minimum_size = Vector2(200, 100)
 layout_mode = 2
 tooltip_text = "Help"
+focus_mode = 0
 texture_normal = ExtResource("10")
 ignore_texture_size = true
 stretch_mode = 0
@@ -310,6 +346,7 @@ stretch_mode = 0
 custom_minimum_size = Vector2(200, 100)
 layout_mode = 2
 tooltip_text = "Copy all"
+focus_mode = 0
 mouse_default_cursor_shape = 2
 texture_normal = ExtResource("8")
 ignore_texture_size = true
@@ -320,6 +357,7 @@ self_modulate = Color(0.768627, 0.0431373, 1, 1)
 custom_minimum_size = Vector2(200, 100)
 layout_mode = 2
 tooltip_text = "Pay"
+focus_mode = 0
 texture_normal = ExtResource("11")
 ignore_texture_size = true
 stretch_mode = 0
