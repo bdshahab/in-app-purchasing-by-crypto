@@ -26,6 +26,10 @@ window/size/viewport_height=768
 window/stretch/mode="viewport"
 window/stretch/aspect="ignore"
 
+[filesystem]
+
+import/blender/enabled=false
+
 [gui]
 
 common/drop_mouse_on_gui_input_disabled=true
