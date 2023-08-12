@@ -1,20 +1,20 @@
 [gd_scene load_steps=17 format=3 uid="uid://sh1fm2drg2yk"]
 
-[ext_resource type="Texture2D" uid="uid://c2egpquik051s" path="res://Payment/Photos/back.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://bncpckp63ojm1" path="res://Payment/Photos/back.png" id="2"]
 [ext_resource type="Script" path="res://Payment/Payment.gd" id="3"]
-[ext_resource type="Texture2D" uid="uid://3p1l2s6ts5ba" path="res://Payment/Photos/bitcoin (btc).png" id="4"]
-[ext_resource type="FontFile" uid="uid://ctt18vyac5gj3" path="res://Payment/UI/TheanoDidot-Regular.ttf" id="5_f0b31"]
-[ext_resource type="Texture2D" uid="uid://x1mhnv7e2wef" path="res://Payment/Photos/calendar.png" id="7_utjer"]
-[ext_resource type="Texture2D" uid="uid://bnlvpoyqi3pqk" path="res://Payment/Photos/copy.png" id="8"]
-[ext_resource type="Texture2D" uid="uid://d00a26egdmuy7" path="res://Payment/Photos/wallet.png" id="8_jv6n0"]
-[ext_resource type="Texture2D" uid="uid://dkl0rmem24r3n" path="res://Payment/Photos/paste.png" id="9"]
-[ext_resource type="Texture2D" uid="uid://c5grv18bhubs" path="res://Payment/Photos/money.png" id="9_mqsbs"]
-[ext_resource type="Texture2D" uid="uid://dmtj5bxtvo8lf" path="res://Payment/Photos/help.png" id="10"]
-[ext_resource type="Texture2D" uid="uid://bw57glj8auleq" path="res://Payment/Photos/clock.png" id="10_bi1pu"]
-[ext_resource type="Texture2D" uid="uid://duseg58mypo8m" path="res://Payment/Photos/buy.png" id="11"]
+[ext_resource type="Texture2D" uid="uid://hfwu5npfo4pm" path="res://Payment/Photos/bitcoin (btc).png" id="4"]
+[ext_resource type="FontFile" uid="uid://b1g7e1fwqk8px" path="res://Payment/UI/TheanoDidot-Regular.ttf" id="5_f0b31"]
+[ext_resource type="Texture2D" uid="uid://dv02c1sd0imtu" path="res://Payment/Photos/calendar.png" id="7_utjer"]
+[ext_resource type="Texture2D" uid="uid://dn66x6o85k4ct" path="res://Payment/Photos/copy.png" id="8"]
+[ext_resource type="Texture2D" uid="uid://bid70grwkq0gu" path="res://Payment/Photos/wallet.png" id="8_jv6n0"]
+[ext_resource type="Texture2D" uid="uid://b5vks6s2xnyuy" path="res://Payment/Photos/paste.png" id="9"]
+[ext_resource type="Texture2D" uid="uid://qd3r2pfhfa2n" path="res://Payment/Photos/money.png" id="9_mqsbs"]
+[ext_resource type="Texture2D" uid="uid://h1ba1wf305rd" path="res://Payment/Photos/help.png" id="10"]
+[ext_resource type="Texture2D" uid="uid://dxflr4b5r3uu5" path="res://Payment/Photos/clock.png" id="10_bi1pu"]
+[ext_resource type="Texture2D" uid="uid://bowtc0lj83qmk" path="res://Payment/Photos/buy.png" id="11"]
 [ext_resource type="Theme" uid="uid://dh006a4e4gjqk" path="res://Payment/UI/theme.tres" id="12"]
-[ext_resource type="Texture2D" uid="uid://cc8thgoexo1vp" path="res://Payment/Photos/methods.png" id="12_umrkj"]
-[ext_resource type="Texture2D" uid="uid://b461rflx75u8q" path="res://Payment/Photos/internet_lost.png" id="13"]
+[ext_resource type="Texture2D" uid="uid://cgfl6l668ehji" path="res://Payment/Photos/methods.png" id="12_umrkj"]
+[ext_resource type="Texture2D" uid="uid://c0p3xd1pxests" path="res://Payment/Photos/internet_lost.png" id="13"]
 
 [sub_resource type="Theme" id="Theme_tfgma"]
 
@@ -44,7 +44,7 @@ offset_left = 12.0
 offset_top = 10.0
 offset_right = 1014.0
 offset_bottom = 80.0
-text = "Choose a method and pay before time's up!"
+text = "Choose a digital currency and pay before time runs out!"
 
 [node name="Label_time" type="Label" parent="."]
 self_modulate = Color(0, 0, 1, 1)
@@ -119,7 +119,7 @@ offset_right = -545.0
 offset_bottom = -62.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "Price:"
+text = "Price"
 
 [node name="price" type="LineEdit" parent="."]
 layout_mode = 0
@@ -190,13 +190,10 @@ stretch_mode = 0
 [node name="HTTPRequest2" type="HTTPRequest" parent="."]
 
 [node name="txidDialog" type="AcceptDialog" parent="."]
+title = "Error"
 position = Vector2i(143, 147)
 size = Vector2i(1080, 474)
-dialog_text = "Your transaction ID does not exist!
-
-Copy the transaction ID and then enter it in the desired place.
-
-Make sure your internet connection is also established."
+dialog_text = "Your transaction ID does not exist! Copy the transaction ID and then enter it in the desired place. Make sure your internet connection is also established."
 dialog_autowrap = true
 
 [node name="Sprite2D" type="Sprite2D" parent="txidDialog"]
@@ -205,6 +202,7 @@ scale = Vector2(0.5, 0.5)
 texture = ExtResource("9")
 
 [node name="dateDialog" type="AcceptDialog" parent="."]
+title = "Error"
 position = Vector2i(143, 184)
 size = Vector2i(1080, 400)
 dialog_text = "Your payment receipt was registered on another date and is not acceptable."
@@ -216,6 +214,7 @@ scale = Vector2(0.41, 0.41)
 texture = ExtResource("7_utjer")
 
 [node name="walletDialog" type="AcceptDialog" parent="."]
+title = "Error"
 position = Vector2i(143, 184)
 size = Vector2i(1080, 400)
 dialog_text = "Your payment receipt was sent to another address and is not acceptable."
@@ -227,6 +226,7 @@ scale = Vector2(0.495, 0.495)
 texture = ExtResource("8_jv6n0")
 
 [node name="moneyDialog" type="AcceptDialog" parent="."]
+title = "Error"
 position = Vector2i(137, 184)
 size = Vector2i(1080, 400)
 dialog_text = "Your payment receipt is not registered with the correct price and is not acceptable."
@@ -237,6 +237,7 @@ position = Vector2(950, 300)
 texture = ExtResource("9_mqsbs")
 
 [node name="timeDialog" type="AcceptDialog" parent="."]
+title = "Error"
 position = Vector2i(143, 184)
 size = Vector2i(1080, 400)
 dialog_text = "Your payment receipt was registered at another time and is not acceptable."
@@ -248,11 +249,10 @@ scale = Vector2(0.38, 0.38)
 texture = ExtResource("10_bi1pu")
 
 [node name="netDialog" type="AcceptDialog" parent="."]
+title = "Error"
 position = Vector2i(267, 201)
 size = Vector2i(833, 367)
-dialog_text = "The Internet connection is lost!
-
-Try again or contact support in the \"about\" section."
+dialog_text = "The Internet connection is lost! Try again or contact support in the [about] section."
 dialog_autowrap = true
 
 [node name="Sprite2D" type="Sprite2D" parent="netDialog"]
@@ -261,11 +261,10 @@ scale = Vector2(0.5, 0.5)
 texture = ExtResource("13")
 
 [node name="priceDialog" type="AcceptDialog" parent="."]
+title = "Error"
 position = Vector2i(310, 184)
 size = Vector2i(745, 400)
-dialog_text = "This payment method is not possible now.
-
-Choose another mathod to pay."
+dialog_text = "This payment method is not possible now. Choose another method to pay."
 
 [node name="Sprite2D" type="Sprite2D" parent="priceDialog"]
 position = Vector2(620, 300)
@@ -293,11 +292,7 @@ offset_left = -658.0
 offset_top = -359.0
 offset_right = 642.0
 offset_bottom = 241.0
-text = "You must first refer to this section so that a purchase order can be prepared for you according to the current price of the digital currency you want.
-After viewing the price, pay the amount to the address which is in front of the name of the digital currency.
-After paying the amount, enter the transaction ID.
-All these steps must be done before your time runs out; Otherwise, the payment will not be accepted.
-The program finds out the time and date through the Internet, and if your payment receipt is not received at the desired time and date, it will not be accepted."
+text = "To access all features of this program, you need to pay the equivalent of $0.01 (one cent) via digital currency. First, you have to choose the type of digital currency you want to pay for and then send the money to our address in that digital currency. Finally, enter the transaction ID. All these steps must be done before your time runs out; Otherwise, the payment will not be accepted. Note that deliver the exact price as shown and not more or less; Otherwise, your payment will not be valid. Your purchase remains valid until you do not exit the program; So, as long as you have not exited the program, you can use the full features of the program."
 
 [node name="Exit_help" type="TextureButton" parent="Help_section"]
 anchors_preset = 2
