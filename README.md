@@ -5,7 +5,7 @@ By using the method in this program, you can make in-app purchases using cryptoc
 
 This program is written in Godot game engine and in GDScript language:
 
-(Godot version: 4.0)
+(Godot version: 4)
 
 https://godotengine.org
 
