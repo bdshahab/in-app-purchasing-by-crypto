@@ -63,6 +63,13 @@ const pay_list = [
 	["Vertcoin (VTC)", "https://coinmarketcap.com/currencies/vertcoin", "VmLS1YQuRVJT73ZkQyQNKWUPUCEsC95MSJ", "https://vtcblocks.com/tx/", "res://Payment/Photos/vertcoin (vtc).png"],
 	["Zcash (ZEC)", "https://coinmarketcap.com/currencies/zcash", "t1gFJup6Mri4mZ1Pgqgzqmz2a3hg66Cpyga", "https://zecblockexplorer.com/tx/", "res://Payment/Photos/zcash (zec).png"],
 ]
+@onready var txidDialog = $txidDialog
+@onready var date_dialog = $dateDialog
+@onready var wallet_dialog = $walletDialog
+@onready var money_dialog = $moneyDialog
+@onready var time_dialog = $timeDialog
+@onready var net_dialog = $netDialog
+@onready var price_dialog = $priceDialog
 
 func _ready():
 	for i in range(pay_list.size()):
@@ -87,7 +94,7 @@ func _ready():
 func first_http_call():
 	var error = http_request.request(pay_list[$paymentList.selected][1])
 	if error != OK:
-		$netDialog.show()
+		net_dialog.show()
 		return
 	$paymentList.disabled = true
 	$HBoxContainer/Verify.disabled = true
@@ -99,7 +106,7 @@ func get_date_http_call():
 		return
 	var error = http_request_for_date.request("https://time.is/UTC")
 	if error != OK:
-		$netDialog.show()
+		net_dialog.show()
 		return
 
 func reset_time():
@@ -176,7 +183,7 @@ func _on_Verify_pressed():
 		$HTTPRequest2.cancel_request()
 		var error = $HTTPRequest2.request(pay_list[$paymentList.selected][3] + $txid.text)
 		if error != OK:
-			$netDialog.show()
+			net_dialog.show()
 			return
 	else:
 		http_request.cancel_request()
@@ -187,7 +194,7 @@ func _on_Verify_pressed():
 		price_error = false
 		var error = $HTTPRequest2.request(pay_list[$paymentList.selected][3] + $txid.text)
 		if error != OK:
-			$netDialog.show()
+			net_dialog.show()
 			return
 		verify_clicked = true
 	$HBoxContainer/Verify.disabled = true
@@ -198,8 +205,8 @@ func _on_HTTPRequest_request_completed(_result, _response_code, _headers, _body)
 	final_body_content_price = _body
 	if txid_error:
 		return
-	if _result != 0 or _body.size() < time_of_payment:
-		$netDialog.show()
+	if _result != 0 or final_body_content_price == null or _body.size() < time_of_payment:
+		net_dialog.show()
 		return
 	else:
 		checking_price()
@@ -208,8 +215,8 @@ func _on_HTTPRequest_for_date_request_completed(_result, _response_code, _header
 	# for manually exception handling!
 	if txid_error:
 		return
-	if _result != 0 or _body.size() < time_of_payment:
-		$netDialog.show()
+	if _result != 0 or _body == null or _body.size() < time_of_payment:
+		net_dialog.show()
 		return
 	else:
 		# here get date
@@ -245,11 +252,11 @@ func checking_price():
 	var content = final_body_content_price.get_string_from_utf8()
 	var crypto_in_dollar = float(get_price_of_this_currency(content))
 	var array = content.find("price")
-	if not txid_error and (content.length() < MAX_TIME_OF_PAYMENT):
-		$netDialog.show()
+	if not txid_error and (content == null or content.length() < MAX_TIME_OF_PAYMENT):
+		net_dialog.show()
 		return
 	elif array == -1:
-		$netDialog.show()
+		net_dialog.show()
 		return
 	elif not verify_clicked:
 		init_time_register = ""
@@ -257,7 +264,7 @@ func checking_price():
 		init_time_register = time1_price_checked
 		var user_price = APP_PRICE_A_DAY_IN_DOLLAR / crypto_in_dollar
 		if user_price < MINIMUM_LIMIT_PRICE:
-			$priceDialog.show()
+			price_dialog.show()
 			return
 		else:
 			user_price = "%.8f" % user_price
@@ -354,15 +361,15 @@ func verify_payment():
 		return
 	else:
 		if not wallet_passed:
-			$walletDialog.show()
+			wallet_dialog.show()
 		elif not money_passed:
-			$moneyDialog.show()
+			money_dialog.show()
 		elif not time_passed:
-			$timeDialog.show()
+			time_dialog.show()
 		elif not date_passed:
-			$dateDialog.show()
+			date_dialog.show()
 		else:
-			$txidDialog.show()
+			txidDialog.show()
 
 func _on_paymentList_item_selected(id):
 	if verify_clicked:
@@ -379,7 +386,7 @@ func _on_paymentList_item_selected(id):
 	$wallet_address.text = pay_list[id][2]
 	var error = http_request.request(pay_list[id][1])
 	if error != OK:
-		$netDialog.show()
+		net_dialog.show()
 		return
 	set_currency_logo(id)
 
@@ -472,14 +479,14 @@ func _on_HTTPRequest2_request_completed(_result, _response_code, _headers, _body
 	final_body_content = _body
 	if txid_error:
 		return
-	if _result != 0 or final_body_content.size() < time_of_payment:
-		$netDialog.show()
+	if _result != 0 or final_body_content == null or final_body_content.size() < time_of_payment:
+		net_dialog.show()
 		return
 	else:
 		web_content = final_body_content.get_string_from_utf8()
 		var time2_array = web_content.find("UTC</p></div><div")
 		if time2_array == -1:
-			$txidDialog.show()
+			txidDialog.show()
 			return
 		##******************************
 		var regex = RegEx.new()
