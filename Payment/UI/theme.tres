@@ -1,6 +1,6 @@
 [gd_resource type="Theme" load_steps=7 format=3 uid="uid://dh006a4e4gjqk"]
 
-[ext_resource type="FontFile" uid="uid://ctt18vyac5gj3" path="res://Payment/UI/TheanoDidot-Regular.ttf" id="1_kbf16"]
+[ext_resource type="FontFile" uid="uid://b1g7e1fwqk8px" path="res://Payment/UI/TheanoDidot-Regular.ttf" id="1_kbf16"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rs65n"]
 bg_color = Color(0.67451, 0.231373, 0.65098, 1)
