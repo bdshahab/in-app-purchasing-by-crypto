@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://dkennsn83uq6s"]
 
 [ext_resource type="Theme" uid="uid://dh006a4e4gjqk" path="res://Payment/UI/theme.tres" id="1_dfbwr"]
-[ext_resource type="Texture2D" uid="uid://dox5ec7apeivc" path="res://Payment/UI/back.png" id="2_gv7rh"]
+[ext_resource type="Texture2D" uid="uid://bc4iccn3jdpg" path="res://Payment/UI/back.png" id="2_gv7rh"]
 
 [sub_resource type="GDScript" id="3"]
 script/source = "extends Control
