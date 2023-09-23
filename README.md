@@ -1,4 +1,5 @@
-# in-app-purchasing-by-crypto
+# in-app-purchasing-by-crypto (It's not a plugin!)
+
 A simple way to enable in-app purchases using cryptocurrencies.
 
 By using the method in this program, you can make in-app purchases using cryptocurrencies.
