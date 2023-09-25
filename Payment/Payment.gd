@@ -91,6 +91,7 @@ func _ready():
 	first_http_call()
 	$currency_logo.tooltip_text = $paymentList.text
 
+
 func first_http_call():
 	var error = http_request.request(pay_list[$paymentList.selected][1])
 	if error != OK:
@@ -156,7 +157,7 @@ func change_date_format_from_standard(date: String):
 		if int(month) == i + 1:
 			month = monthsh[i]
 			break
-	# May 19 2023
+	# 19 May 2023
 	return day + " " + month + " " + year
 
 func _on_Timer_timeout():
@@ -277,31 +278,13 @@ func checking_price():
 		reset_time()
 		$Timer.start()
 
-func get_tomorrow_by_date(date_year_month_day: String):
-	# get "2023-05-18" and returns "2023-05-19"
-	var the_date = date_year_month_day.split(" ")
-	match the_date[0]:
-		monthsh[0]: the_date[0] = '01'
-		monthsh[1]: the_date[0] = '02'
-		monthsh[2]: the_date[0] = '03'
-		monthsh[3]: the_date[0] = '04'
-		monthsh[4]: the_date[0] = '05'
-		monthsh[5]: the_date[0] = '06'
-		monthsh[6]: the_date[0] = '07'
-		monthsh[7]: the_date[0] = '08'
-		monthsh[8]: the_date[0] = '09'
-		monthsh[9]: the_date[0] = '10'
-		monthsh[10]: the_date[0] = '11'
-		monthsh[11]: the_date[0] = '12'
-	var date = {
-		"year": the_date[2],
-		"month": the_date[0],
-		"day": the_date[1],
-		"hour": 0,
-		"minute": 0,
-		"second": 0
-	}
-	var unix_time = Time.get_unix_time_from_datetime_dict(date)
+func get_tomorrow_by_date(date_month_day_year: String):
+	var the_splitted = date_month_day_year.split(" ")
+	for i in range(monthsh.size()):
+		if the_splitted[1] == monthsh[i]:
+			the_splitted[1] = "%02d" % (i + 1)
+			break
+	var unix_time = Time.get_unix_time_from_system()
 	var tomorrow = (Time.get_date_dict_from_unix_time(unix_time + 24 * 60 * 60))
 	return str(tomorrow["year"]) + "-" + str(tomorrow["month"]) + "-" + str(tomorrow["day"])
 
@@ -311,7 +294,6 @@ func verify_payment():
 	if txid_error:
 		return
 	txid = $txid.text
-	date_today = change_date_format(date_today)
 	var date_tomorrow = get_tomorrow_by_date(date_today)
 	date_tomorrow = change_date_format_from_standard(date_tomorrow)
 	var bought_it = false
@@ -328,12 +310,21 @@ func verify_payment():
 	############################################################################
 	# uncomment to test if this program works correctly (for Litecoin)
 #	txid = "61a7667851da2d1395c26f4eaba7a14a3c1355ba80e1b35678327619a115d21e"
-#	value_of_money = "0.00994188"
 #	date_today = "08 Feb 2022"
 #	date_tomorrow = "09 Feb 2022"
 #	time1_price_checked = "07:00:47"
 #	time2_payment_registered = "07:05:47"
+#	value_of_money = "0.00994188"
+#
+#	print("my_wallet_address_to_receive_money: " + str(my_wallet_address_to_receive_money))
+#	print("txid: " + str(txid))
+#	print("date_today: " + str(date_today))
+#	print("date_tomorrow: " + str(date_tomorrow))
+#	print("time1_price_checked: " + str(time1_price_checked))
+#	print("time2_payment_registered: " + str(time2_payment_registered))
+#	print("value_of_money: " + str(value_of_money))
 	############################################################################
+	
 	if txid in web_content:#web_content_price
 		if my_wallet_address_to_receive_money in web_content:
 			wallet_passed = true
