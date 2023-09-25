@@ -41,7 +41,7 @@ var price_error := false
 var final_body_content
 var final_body_content_price
 var verify_clicked = false
-const monthsh=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sept","Oct","Nov","Dec"]
+const monthsh=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
 # 14 currency methods
 # name of currency / price check site / wallet address / verify site / Icon
 # all of the verify site are same as each other which guarda uses.
