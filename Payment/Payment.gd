@@ -445,6 +445,10 @@ func _on_paste_txid_pressed():
 	_on_txid_text_changed($txid.text)
 
 func _on_txid_text_changed(_new_text):
+	# Removing the unnecessary part. We only want the TXID part and not the receipt link.
+	if "/" in _new_text:
+		var the_content = (_new_text.split("/"))
+		$txid.text = the_content[the_content.size() - 1]
 	if $HTTPRequest2.is_processing():
 		return
 	if verify_clicked and $txid.text.length() > 0:
