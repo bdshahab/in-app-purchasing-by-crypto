@@ -18,14 +18,23 @@ func _on_license_pressed():
 func _on_game_pressed():
 	OS.shell_open($game.tooltip_text)
 
-func _on_about_me_pressed():
-	OS.shell_open($about_me.tooltip_text)
+func _on_lnk_bio_pressed():
+	OS.shell_open($lnk_bio.tooltip_text)
 
 func _on_blogger_pressed():
-	OS.shell_open($social_media/hb1/blogger.tooltip_text)
+	OS.shell_open($social_media/hb0/blogger.tooltip_text)
+
+func _on_chess_com_pressed():
+	OS.shell_open($social_media/hb0/chess_com.tooltip_text)
+
+func _on_clouthub_pressed():
+	OS.shell_open($social_media/hb0/clouthub.tooltip_text)
 
 func _on_diaspora_pressed():
-	OS.shell_open($social_media/hb1/diaspora.tooltip_text)
+	OS.shell_open($social_media/hb0/diaspora.tooltip_text)
+
+func _on_discord_pressed():
+	OS.shell_open($social_media/hb1/discord.tooltip_text)
 
 func _on_facebook_pressed():
 	OS.shell_open($social_media/hb1/facebook.tooltip_text)
@@ -36,9 +45,6 @@ func _on_flickr_pressed():
 func _on_flipboard_pressed():
 	OS.shell_open($social_media/hb1/flipboard.tooltip_text)
 
-func _on_flote_pressed():
-	OS.shell_open($social_media/hb1/flote.tooltip_text)
-
 func _on_gab_pressed():
 	OS.shell_open($social_media/hb1/gab.tooltip_text)
 
@@ -48,8 +54,14 @@ func _on_gettr_pressed():
 func _on_instagram_pressed():
 	OS.shell_open($social_media/hb1/instagram.tooltip_text)
 
+func _on_itch_io_pressed():
+	OS.shell_open($social_media/hb1/itch_io.tooltip_text)
+
 func _on_justpaste_it_pressed():
 	OS.shell_open($social_media/hb1/justpaste_it.tooltip_text)
+
+func _on_lichess_pressed():
+	OS.shell_open($social_media/hb1/lichess.tooltip_text)
 
 func _on_linkedin_pressed():
 	OS.shell_open($social_media/hb2/linkedin.tooltip_text)
@@ -75,23 +87,20 @@ func _on_minds_pressed():
 func _on_odysee_pressed():
 	OS.shell_open($social_media/hb2/odysee.tooltip_text)
 
-func _on_parler_pressed():
-	OS.shell_open($social_media/hb2/parler.tooltip_text)
-
 func _on_pinterest_pressed():
 	OS.shell_open($social_media/hb2/pinterest.tooltip_text)
 
 func _on_reddit_pressed():
-	OS.shell_open($social_media/hb3/reddit.tooltip_text)
+	OS.shell_open($social_media/hb2/reddit.tooltip_text)
 
 func _on_steemit_pressed():
 	OS.shell_open($social_media/hb3/steemit.tooltip_text)
 
-func _on_substack_pressed():
-	OS.shell_open($social_media/hb3/substack.tooltip_text)
-
 func _on_telegram_pressed():
 	OS.shell_open($social_media/hb3/telegram.tooltip_text)
+
+func _on_the_dots_pressed():
+	OS.shell_open($social_media/hb3/the_dots.tooltip_text)
 
 func _on_tiktok_pressed():
 	OS.shell_open($social_media/hb3/tiktok.tooltip_text)
@@ -107,6 +116,9 @@ func _on_wordpress_pressed():
 
 func _on_x_pressed():
 	OS.shell_open($social_media/hb3/x.tooltip_text)
+
+func _on_xing_pressed():
+	OS.shell_open($social_media/hb3/xing.tooltip_text)
 
 func _on_youtube_pressed():
 	OS.shell_open($social_media/hb3/youtube.tooltip_text)
