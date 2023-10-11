@@ -649,4 +649,3 @@ func _on_Exit_help_mouse_exited():
 
 func _on_Exit_help_button_down():
 	$Help_section/Exit_help.self_modulate = "6071cf"
-
