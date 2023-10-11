@@ -1,4 +1,5 @@
-# in app purchasing by crypto (version 1.1)
+# in app purchasing by crypto
+version 1.1
 (It's not a plugin!)
 
 A simple way to enable in-app purchases using cryptocurrencies.
