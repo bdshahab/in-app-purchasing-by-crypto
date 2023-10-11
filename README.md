@@ -1,6 +1,4 @@
-# in app purchasing by crypto
-
-version 1.1
+# in app purchasing by crypto: version (1.1)
 
 (It's not a plugin!)
 
