@@ -1,4 +1,9 @@
 extends Control
+
+# This is very important to check if the current payment method working or not
+# Especially for users who want to pay, and don't want to lose money without buying!
+const PAYMENT_VERSION : String = "(1.1)"
+const VERSION_PAGE = "https://raw.githubusercontent.com/bdshahab/in-app-purchasing-by-crypto/main/README.md"
 #User only have limited time(for example: 10 min)
 #to register payment. Otherwise, it will be close.
 #
@@ -70,6 +75,38 @@ const pay_list = [
 @onready var time_dialog = $timeDialog
 @onready var net_dialog = $netDialog
 @onready var price_dialog = $priceDialog
+@onready var payment_version_dialog = $payment_version_Dialog
+@onready var used_txid_dialog = $used_txidDialog
+
+var used_txid = []
+
+func check_payment_update():
+	var http_request_check_payment_update = HTTPRequest.new()
+	add_child(http_request_check_payment_update)
+	http_request_check_payment_update.request_completed.connect(self._on_request_check_payment_update_completed)
+	var error = http_request_check_payment_update.request(VERSION_PAGE)
+	if error != OK:
+		net_dialog.show()
+		return
+
+func _on_request_check_payment_update_completed(result, _response_code, _headers, body):
+	if result == OK:
+		var script_code_version : String = body.get_string_from_utf8()
+		var the_content = (script_code_version.split("\n"))
+		var the_part = the_content[0].split(" ")
+		the_part = the_part[the_part.size() - 1]
+		the_part = the_part.strip_edges(true, true)
+		if the_part != PAYMENT_VERSION:
+			payment_version_dialog.show()
+			return
+		else:
+			real_ready()
+	else:
+		net_dialog.show()
+		return
+
+func _on_payment_version_dialog_confirmed():
+	get_tree().change_scene_to_file("res://About/about.tscn")
 
 func _ready():
 	for i in range(pay_list.size()):
@@ -79,6 +116,9 @@ func _ready():
 	$txid.text = ""
 	$wallet_address.text = pay_list[$paymentList.selected][2]
 	$currency_logo.texture_normal = load(pay_list[$paymentList.selected][4])
+	check_payment_update()
+
+func real_ready():
 	reset_time()
 	http_request = HTTPRequest.new()
 	http_request_for_date = HTTPRequest.new()
@@ -90,7 +130,6 @@ func _ready():
 	http_request_for_date.connect("request_completed",Callable(self,"_on_HTTPRequest_for_date_request_completed"))
 	first_http_call()
 	$currency_logo.tooltip_text = $paymentList.text
-
 
 func first_http_call():
 	var error = http_request.request(pay_list[$paymentList.selected][1])
@@ -288,73 +327,72 @@ func get_tomorrow_by_date(date_month_day_year: String):
 	var tomorrow = (Time.get_date_dict_from_unix_time(unix_time + 24 * 60 * 60))
 	return str(tomorrow["year"]) + "-" + str(tomorrow["month"]) + "-" + str(tomorrow["day"])
 
+func get_fee():
+	var the_index = 'Transaction Fee</p><p class="title is-6">'
+	var the_end_index = " "
+	var the_text = web_content.split(the_index)[1]
+	return float(the_text.split(the_end_index)[0])
+
+func get_real_money_comes_to_account():
+	var the_index = '"vout":[{"value":'
+	var the_end_index = ',"n":0,"scriptPubKey"'
+	
+	var the_text = web_content.split(the_index)[1]
+	return float(the_text.split(the_end_index)[0])
+
+func calculate_remaining_price():
+	value_of_money = str(float($price.text) - (get_real_money_comes_to_account() + get_fee()))
+	$price.text = value_of_money
+
 # This method checks the receipt of the payment site like this:
 # https://litecoinblockexplorer.net/tx/61a7667851da2d1395c26f4eaba7a14a3c1355ba80e1b35678327619a115d21e
 func verify_payment():
 	if txid_error:
 		return
 	txid = $txid.text
+	
 	var date_tomorrow = get_tomorrow_by_date(date_today)
 	date_tomorrow = change_date_format_from_standard(date_tomorrow)
 	var bought_it = false
-	var money_passed = false
 	var date_passed = true
 	var wallet_passed = false
 	var time_passed = true
-	# Price in input (without fee) or in output (after considering fee) comes after these phrase.
-	const prefix_total = 'put</p><p class="title is-6">'
-	# Another prefix for money is "value":0.00994188 which is only for Total Output
-	const prefix_total2 = "\"value\":"
 	# we have to look at address if and only if it comes after /address/ phrase.
 	my_wallet_address_to_receive_money = "/address/" + my_wallet_address_to_receive_money
-	############################################################################
-	# uncomment to test if this program works correctly (for Litecoin)
-#	txid = "61a7667851da2d1395c26f4eaba7a14a3c1355ba80e1b35678327619a115d21e"
-#	date_today = "08 Feb 2022"
-#	date_tomorrow = "09 Feb 2022"
-#	time1_price_checked = "07:00:47"
-#	time2_payment_registered = "07:05:47"
-#	value_of_money = "0.00994188"
-#
-#	print("my_wallet_address_to_receive_money: " + str(my_wallet_address_to_receive_money))
-#	print("txid: " + str(txid))
-#	print("date_today: " + str(date_today))
-#	print("date_tomorrow: " + str(date_tomorrow))
-#	print("time1_price_checked: " + str(time1_price_checked))
-#	print("time2_payment_registered: " + str(time2_payment_registered))
-#	print("value_of_money: " + str(value_of_money))
-	############################################################################
-	
 	if txid in web_content:#web_content_price
 		if my_wallet_address_to_receive_money in web_content:
 			wallet_passed = true
-			if (prefix_total + value_of_money) in web_content or (prefix_total2 + value_of_money) in web_content:
-				money_passed = true
-				if (date_today in web_content) or (date_tomorrow in web_content):
-					if check_time(time2_payment_registered) and compare_times(time1_price_checked, time2_payment_registered):
-						if day_changed:
-							if (date_tomorrow in web_content):
-								bought_it = true
-							else:
-								date_passed = false
+			if (date_today in web_content) or (date_tomorrow in web_content):
+				if check_time(time2_payment_registered) and compare_times(time1_price_checked, time2_payment_registered):
+					if day_changed:
+						if (date_tomorrow in web_content):
+							bought_it = true
 						else:
-							if (date_today in web_content):
-								bought_it = true
-							else:
-								date_passed = false
+							date_passed = false
 					else:
-						time_passed = false
+						if (date_today in web_content):
+							bought_it = true
+						else:
+							date_passed = false
 				else:
-					date_passed = false
+					time_passed = false
+			else:
+				date_passed = false
 	if bought_it:
-		# if you buy it successfully
-		get_tree().change_scene_to_file("res://Payment/You_Bought_this.tscn")
-		return
+		if txid in used_txid:
+			used_txid_dialog.show()
+			return
+		used_txid.append(txid)
+		calculate_remaining_price()
+		if float(value_of_money) <= 0:
+			# if you buy it successfully
+			get_tree().change_scene_to_file("res://Payment/You_Bought_this.tscn")
+		else:
+			bought_it = false
+			money_dialog.show()
 	else:
 		if not wallet_passed:
 			wallet_dialog.show()
-		elif not money_passed:
-			money_dialog.show()
 		elif not time_passed:
 			time_dialog.show()
 		elif not date_passed:
@@ -479,13 +517,11 @@ func _on_HTTPRequest2_request_completed(_result, _response_code, _headers, _body
 		if time2_array == -1:
 			txidDialog.show()
 			return
-		##******************************
 		var regex = RegEx.new()
 		regex.compile("(\\d{2}):(\\d{2}):(\\d{2})")
 		var result2 = regex.search(web_content)
 		if result2: # if a match is found
 			time2_payment_registered = result2.get_string(0)
-		##******************************
 		verify_payment()
 
 func _on_Back_pressed():
@@ -609,3 +645,4 @@ func _on_Exit_help_mouse_exited():
 
 func _on_Exit_help_button_down():
 	$Help_section/Exit_help.self_modulate = "6071cf"
+
