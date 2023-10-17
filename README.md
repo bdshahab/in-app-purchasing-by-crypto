@@ -12,12 +12,12 @@ This program is written in Godot game engine and in GDScript language:
 
 https://godotengine.org
 
-Users only had limited time (for example: 10 min) to register payment. Otherwise, it will be closed.
+Users only had limited time (for example: 10 min) to finish payment. Otherwise, it will be closed.
 
 The user picks the method of pay
-app to show the price in that currency and registers the date of today and tomorrow
+app to show the price in that currency.
 Users have to send that amount of money to the bdshahab (any producer) address.
-Users have to register payment TXID for a limited time.
+Users have to paste [TXID] of payment for a limited time.
 App verify the payment with the registered price in that time
 price check by https://coinmarketcap.com
 
