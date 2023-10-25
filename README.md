@@ -4,6 +4,9 @@
 
 A simple way to enable in-app purchases using cryptocurrencies.
 
+A video clip about this method:
+https://youtu.be/QOaZi6Bp4og
+
 By using the method in this program, you can make in-app purchases using cryptocurrencies.
 
 This program is written in Godot game engine and in GDScript language:
