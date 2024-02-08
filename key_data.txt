@@ -15,4 +15,4 @@ https://finance.yahoo.com/quote/
  
 , 
  
-1.2
+1.1
