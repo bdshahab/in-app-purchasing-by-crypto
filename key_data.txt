@@ -3,11 +3,14 @@ https://www.unixtimestamp.com
  (%d%d:%d%d:%d%d) UTC</td>
 , (%d%d%-%a%a%a%-%d%d)%d?%d?%s(%d%d:%d%d:%d%d) UTC</td>
 (%d%d:%d%d:%d%d)
-%s*%((%w+)%)
 https://finance.yahoo.com/quote/
 >(%d+,*%d*.%d+)</fin%-streamer><fin%-streamer class
 
 -USD
+%s*%((%w+)%)
+
+
+
 /address/
 \">
 >
