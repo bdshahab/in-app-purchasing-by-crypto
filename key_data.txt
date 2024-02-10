@@ -1,4 +1,4 @@
-2.0
+2
 https://www.unixtimestamp.com
  (%d%d:%d%d:%d%d) UTC</td>
 , (%d%d%-%a%a%a%-%d%d)%d?%d?%s(%d%d:%d%d:%d%d) UTC</td>
