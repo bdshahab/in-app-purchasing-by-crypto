@@ -1,8 +1,12 @@
 # In-app purchasing by cryptocurrency
 
 (It's not a plugin!)
+<img width="859" alt="1" src="https://github.com/bdshahab/in-app-purchasing-by-crypto/assets/17976016/e7ee57fe-dc7a-401c-8395-848e584e5ec8">
+
 
 A simple way to enable in-app purchases using cryptocurrencies.
+<img width="866" alt="2" src="https://github.com/bdshahab/in-app-purchasing-by-crypto/assets/17976016/a019ad1c-8f7f-4c4a-a220-5c55add9323f">
+
 
 A video clip about this method (A little different in appearance but the same in function):
 
