@@ -1,0 +1,91 @@
+local normal_color = vmath.vector4(1, 1, 1, 1)
+local hover_color = vmath.vector4(0.7, 0.7, 0.7, 1)
+local pressed_color = vmath.vector4(1.5, 0.5, 0.5, 1)
+selected_payment = ""
+
+local list = {
+	{"bitcoin", "Bitcoin (BTC)"},
+	{"bitcoin_cash", "Bitcoin Cash (BCH)"},
+	{"bitcoin_gold", "Bitcoin Gold (BTG)"},
+	{"dash", "Dash (DASH)"},
+	{"digibyte", "DigiByte (DGB)"},
+	{"dogecoin", "Dogecoin (DOGE)"},
+	{"ethereum", "Ethereum (ETH)"},
+	{"firo", "FIRO (FIRO)"},
+	{"komodo", "Komodo (KMD)"},
+	{"litecoin", "Litecoin (LTC)"},
+	{"qtum", "Qtum (QTUM)"},
+	{"ravencoin", "Ravencoin (RVN)"},
+	{"reddcoin", "ReddCoin (RDD)"},
+	{"verge", "Verge (XVG)"},
+	{"vertcoin", "Vertcoin (VTC)"},
+	{"zcash", "Zcash (ZEC)"},
+}
+
+function handle_hovering(box, action)
+	if box == nil then
+		return
+	end
+	if action.x and action.y then
+		-- check if the mouse is over the box
+		local over_box = gui.pick_node(box, action.x, action.y)
+		if over_box then
+			if action.repeated then
+				gui.set_color(box, pressed_color)
+			else
+				gui.set_color(box, hover_color)
+			end
+		else
+			gui.set_color(box, normal_color)
+		end
+	end
+end
+
+function handle_clicking(box, action_id, action)
+	if box == nil then
+		return
+	end
+	if action_id == hash("touch") and action.pressed then
+		if gui.pick_node(box, action.x, action.y) then
+			return true
+		end
+	end
+end
+
+function handle_hover_click(box_name, action, action_id, unload_scene, load_scene, set_text)
+	local box = gui.get_node(box_name)
+	handle_hovering(box, action)
+	if handle_clicking(box, action_id, action) then
+		local selected_coin = gui.get_node("selected_coin")
+		if set_text ~= nil then
+			gui.set_text(selected_coin, set_text)
+		elseif box_name == "next" then
+			if (gui.get_text(selected_coin)) == "" then
+				local s = 1.24
+				local text = gui.get_node("text")
+				gui.animate(text, gui.PROP_SCALE, vmath.vector4(s, s, s, 0), gui.EASING_LINEAR, 3, 0, nil, gui.PLAYBACK_LOOP_PINGPONG)
+				return
+			else
+				selected_payment = gui.get_text(selected_coin)
+			end
+		end
+		if unload_scene ~= nil then
+			msg.post("main:/loader#loader", "unload_scene", { scene = "main:/loader#" .. unload_scene })
+		end
+		if load_scene ~= nil then
+			msg.post("main:/loader#loader", "load_scene", { scene = "main:/loader#" .. load_scene})
+		end
+	end
+end
+
+function init(self)
+	msg.post(".", "acquire_input_focus")
+end
+
+function on_input(self, action_id, action)
+	handle_hover_click("back", action, action_id, "select_coin", "main_menu", nil)
+	handle_hover_click("next", action, action_id, "select_coin", "payment", nil)
+	for i, value in ipairs(list) do
+		handle_hover_click(value[1], action, action_id, nil, nil, value[2])
+	end
+end
