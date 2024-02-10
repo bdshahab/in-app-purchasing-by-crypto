@@ -1,4 +1,4 @@
-# in app purchasing by crypto
+# In-app purchasing by cryptocurrency
 
 (It's not a plugin!)
 
