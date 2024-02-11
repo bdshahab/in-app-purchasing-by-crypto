@@ -37,7 +37,8 @@ Users have to send that amount of money to the address.
 Users have to paste [TXID] of payment in the program.
 The app will verify the payment with the registered price at that time.
 
-Full description of this method
+# Full description of this method
+
 In-app payment using cryptocurrencies
 
 Due to various restrictive laws or sanctions, financial exchanges are not available in a free and equal way for everyone in the world; But cryptocurrencies do not have any geographical limitations, and they are not limited to anyone. App stores usually follow those rules and sanctions, and for that reason, some developers cannot sell their products.
