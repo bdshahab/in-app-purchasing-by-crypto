@@ -208,7 +208,7 @@ function http_verify_function(self, _, response)
 	registered_clock = get_registered_clock(text)
 	-- test section (uncomment these for testing the verify section)
 	-- you have to set correct TXID in the app too.
-	test_IAP(true)
+	test_IAP(false)
 	-- End of test section
 	-- real money comes to account is "Total Output"
 	-- Total Output => Total Input - Transaction Fee
