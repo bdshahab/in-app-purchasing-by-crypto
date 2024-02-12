@@ -77,10 +77,6 @@ function handle_hovering(box, action)
 			gui.set_color(box, hover_color)
 			gui.set_color(ok, vmath.vector4(1, 0, 0, 1))
 		end
-		-- if(box == gui.get_node("ok")) then
-		-- 	gui.set_color(ok, vmath.vector4(1, 0, 0, 1))
-		-- end
-		
 	end
 end
 
