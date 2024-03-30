@@ -328,11 +328,14 @@ function http_price_function(self, _, response)
 	local number = get_just_number(get_price_yahoo(text))
 	if number ~= nil then
 		number = APP_PRICE / number
-		number = tonumber(string.format("%.8f", number))
+		-- Converting a number to text format helps to show it in normal mode not in scientific notation.
+		-- For example, instead of (1.5e-07), we want (0.00000015)
+		local number_in_text = string.format("%.8f", number)
+		number = tonumber(number_in_text)
 		if number < MINIMUM_LIMIT_PRICE then
 			show_dialogue("back", "methods", MESSAGE_ANOTHER_CURRENCY)
 		else
-			gui.set_text(text_price, number)
+			gui.set_text(text_price, number_in_text)
 			timer_active = true
 			get_date_time()
 		end
