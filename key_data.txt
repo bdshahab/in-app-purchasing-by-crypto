@@ -5,14 +5,14 @@ https://www.unixtimestamp.com
 -
  
 (%d%d:%d%d:%d%d)
-https://finance.yahoo.com/quote/
->(%d+,*%d*.%d+)</fin%-streamer><fin%-streamer class
-
--USD
-%s*%((%w+)%)
+https://www.coingecko.com/en/coins/
+"price": (%d+,*%d*.%d+),
 
 
+([^%(]+)
 
+lower
+-
 /address/
 ">
 >
