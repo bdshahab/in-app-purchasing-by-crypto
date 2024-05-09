@@ -60,4 +60,4 @@ Cryptocurrencies are free for everyone to use them. Websites for announcing the 
 For those cases where the price announcement site is down, a default price list has been placed on this GitHub site to be used.
 These default prices are in their folder (default prices) on this site.
 
-Key information is updated through a special file on this GitHub site so that possible problems can be solved quickly in the future and there is no need to produce a new program and download it by the customer.
+Key information is updated through a special file (key_data.txt) on this GitHub site so that possible problems can be solved quickly in the future and there is no need to produce a new program and download it by the customer.
