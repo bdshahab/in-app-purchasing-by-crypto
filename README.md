@@ -56,3 +56,5 @@ It is possible to determine the price by using one of the cryptocurrency price a
 Various cryptocurrency transaction tracking sites can be used to confirm the payment.
 
 Cryptocurrencies are free for everyone to use them. Websites for announcing the price of cryptocurrencies are also free to access for everyone. Websites tracking transactions are also accessible freely. As a result, programmers don't need middlemen paying them for these financial affairs and selling their products. There is no law or sanction against this method of earning money, and only accessing the Internet is enough.
+
+For those cases where the price announcement site is down, a default price list has been placed on the GitHub site to be used.
