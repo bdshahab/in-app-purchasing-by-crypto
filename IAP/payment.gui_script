@@ -346,10 +346,32 @@ You can test the program by activating the "test_IAP" function.
 				get_date_time()
 			end
 		else
-			show_dialogue("back", "internet_lost", MESSAGE_LOST_CONNECTION)
+			get_web_content_from("https://raw.githubusercontent.com/bdshahab/in-app-purchasing-by-crypto/main/","default%20prices/",selected_payment:gsub(" ", "%%20"),".txt", http_default_price_function)
 		end
 	end
 
+	function http_default_price_function(self, _, response)
+		connection_status(response.status)	
+		local number = response.response
+		number = get_just_number(number)
+		if number ~= nil then
+			number = APP_PRICE / number
+			-- Converting a number to text format helps to show it in normal mode not in scientific notation.
+			-- For example, instead of (1.5e-07), we want (0.00000015)
+			local number_in_text = string.format("%.8f", number)
+			number = tonumber(number_in_text)
+			if number < MINIMUM_LIMIT_PRICE then
+				show_dialogue("back", "methods", MESSAGE_ANOTHER_CURRENCY)
+			else
+				gui.set_text(text_price, number_in_text)
+				timer_active = true
+				get_date_time()
+			end
+		else
+			show_dialogue("back", "internet_lost", MESSAGE_LOST_CONNECTION)
+		end
+	end
+	
 	function get_coin_symbol(text)
 		local result = ""
 		if COIN_REGEX_1 ~= "" then
@@ -476,6 +498,9 @@ You can test the program by activating the "test_IAP" function.
 
 	function get_just_number(text)
 		if text ~= nil then
+			if tonumber(text) ~= nil then
+				return tonumber(text)
+			end
 			local pattern = "%d+,*%d*.%d+"  -- This pattern matches any number, including integers and decimals
 			return string.match(text, pattern)
 		else
