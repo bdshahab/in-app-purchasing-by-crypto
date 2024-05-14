@@ -6,6 +6,9 @@ You can test the program by activating the "test_IAP" function.
 	Also, the payment type must be Litecoin.
 	https://litecoinblockexplorer.net/tx/61a7667851da2d1395c26f4eaba7a14a3c1355ba80e1b35678327619a115d21e
 	]]
+	local TESTING = true
+	local PRICE_TEST_IS_OK = false
+	local BUY_CLICKED = false
 	local KEY_DATA_SITE = "https://raw.githubusercontent.com/bdshahab/in-app-purchasing-by-crypto/main/key_data.txt"
 	-- updatable key data
 	local IAP_VERSION = "3"
@@ -85,7 +88,7 @@ You can test the program by activating the "test_IAP" function.
 	local MESSAGE_HELP = "Once you know the price, go to your cryptocurrency account. Pay the price in that selected digital currency. After that, you must copy your payment's transaction hash ID (TXID). Then, go back to the program and paste the [TXID] in the bottom part. Press [Buy] button before time's up!"
 
 	function http_key_data_function(self, _, response)
-		connection_status(response.status)	
+		connection_status(response.status)
 		local text = response.response
 		local num = 1
 		for line in text:gmatch("(.-)\n") do
@@ -214,7 +217,7 @@ You can test the program by activating the "test_IAP" function.
 		registered_clock = get_registered_clock(text)
 		-- test section (uncomment these for testing the verify section)
 		-- you have to set correct TXID in the app too.
-		test_IAP(false)
+		test_IAP(TESTING)
 		-- End of test section
 		-- real money comes to account is "Total Output"
 		-- Total Output => Total Input - Transaction Fee
@@ -258,6 +261,7 @@ You can test the program by activating the "test_IAP" function.
 		-- or maybe we use combination of them "ReddCoin RDD"
 		-- Defold is sensitive to lower/upper case
 		price_site_middle = get_coin_symbol(selected_payment)
+		BUY_CLICKED = false
 		get_web_content_from(KEY_DATA_SITE, "", "", "", http_key_data_function)
 	end
 
@@ -329,10 +333,12 @@ You can test the program by activating the "test_IAP" function.
 	end
 
 	function http_price_function(self, _, response)
+		PRICE_TEST_IS_OK = false
 		connection_status(response.status)	
 		local text = response.response
 		local number = get_just_number(get_price_from_web(text))
 		if number ~= nil then
+			PRICE_TEST_IS_OK = true
 			number = APP_PRICE / number
 			-- Converting a number to text format helps to show it in normal mode not in scientific notation.
 			-- For example, instead of (1.5e-07), we want (0.00000015)
@@ -446,6 +452,11 @@ You can test the program by activating the "test_IAP" function.
 	end
 
 	function go_next()
+		if not BUY_CLICKED then
+			BUY_CLICKED = true
+		else
+			return
+		end
 		if gui.get_text(txid) == "" and gui.get_alpha(dialogue) ~= 1 then
 			show_dialogue("", "paste", MESSAGE_EMPTY_TXID)
 		else
@@ -573,6 +584,7 @@ You can test the program by activating the "test_IAP" function.
 		end
 
 		print("Data:")
+		print("PRICE_TEST_IS_OK: " .. tostring(PRICE_TEST_IS_OK))
 		print("registered_address: " .. registered_address)
 		print("registered_txid: " .. registered_txid)
 		print("registered_clock: " .. registered_clock)
@@ -617,8 +629,10 @@ You can test the program by activating the "test_IAP" function.
 				end
 			end
 		end
-		if result_of_test then
+		if result_of_test and PRICE_TEST_IS_OK then
 			print("Congratulations! The test was successful!")
+		elseif PRICE_TEST_IS_OK then
+			print("Only the price test from the main site was successful.")
 		else
 			print("Sorry! The test was unsuccessful.")
 		end
