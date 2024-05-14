@@ -6,7 +6,7 @@ You can test the program by activating the "test_IAP" function.
 	Also, the payment type must be Litecoin.
 	https://litecoinblockexplorer.net/tx/61a7667851da2d1395c26f4eaba7a14a3c1355ba80e1b35678327619a115d21e
 	]]
-	local TESTING = true
+	local TESTING = false
 	local PRICE_TEST_IS_OK = false
 	local BUY_CLICKED = false
 	local KEY_DATA_SITE = "https://raw.githubusercontent.com/bdshahab/in-app-purchasing-by-crypto/main/key_data.txt"
