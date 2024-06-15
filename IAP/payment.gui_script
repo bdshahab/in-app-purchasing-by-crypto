@@ -1,0 +1,639 @@
+--[[
+This program, through the website, checks the version of the program and if the version has not changed, 
+it updates the necessary information.
+You can test the program by activating the "test_IAP" function.
+	Set its parameter to "true" to test.
+	Also, the payment type must be Litecoin.
+	https://litecoinblockexplorer.net/tx/61a7667851da2d1395c26f4eaba7a14a3c1355ba80e1b35678327619a115d21e
+	]]
+	local TESTING = false
+	local PRICE_TEST_IS_OK = false
+	local BUY_CLICKED = false
+	local KEY_DATA_SITE = "https://raw.githubusercontent.com/bdshahab/iap_defold/main/key_data.txt"
+	-- updatable key data
+	local IAP_VERSION = "3"
+	-- To get the current Date & Time
+	local DATE_TIME_SITE = "https://www.unixtimestamp.com"
+	local TIME_REGEX = " (%d%d:%d%d:%d%d) UTC</td>"
+	local DATE_REGEX = "%a+, (%d+ %a+ %d+) "
+	local DATE_REMOVE = "-"
+	local DATE_REPLACE = " "
+	local CLOCK_REGEX = "(%d%d:%d%d:%d%d)"
+
+	-- To get the current price of coins
+	local PRICE_SITE = "https://www.coingecko.com/en/coins/"
+	local PRICE_SITE_REGEX = '"price": (%d+,*%d*.%d+),'
+	local PRICE_SITE_PREFIX = ""
+	local PRICE_SITE_SUFFIX = ""
+	local COIN_REGEX_1 = "([^%(]+)" -- '(%a+%s%a+) %(%a+%)' --'%((%a+)%)'
+	local COIN_REGEX_2 = ""
+	local COIN_UPPER_LOWER = "lower"--"lower" -- upper if uppercase and lower if lowercase and nothing("") for none
+	local COIN_REGEX_SEPARATOR = "-"
+
+	-- To get the validation of payment
+	local ADDRESS_PREFIX = "/address/"
+	local ADDRESS_SUFFIX = "\">"
+	local TXID_PREFIX = ">" -- and /tx/
+	local TXID_SUFFIX = "<"
+	local MONEY_PREFIX = ">"
+	local MONEY_SUFFIX = " "
+	local DATE_PREFIX = ", "
+	local DATE_SUFFIX = " "
+
+	local addresses = {
+		{"Bitcoin (BTC)", "1LQSzFZKE5vwiUS94toMG7r5M2nQ4X2muw", "https://bitcoinblockexplorers.com/tx/"},
+		{"Bitcoin Cash (BCH)", "bitcoincash:qzhr6lc9r64c3wg3jnndqaxzpyxeghdp2s57w5wgwu", "https://bchblockexplorer.com/tx/"},
+		{"Bitcoin Gold (BTG)", "GJbYu4YviyCi8azMV6ZAvdhjJTcigdmnPV", "https://btgexplorer.com/tx/"},
+		{"Dash (DASH)", "Xn5HwktiWJfgKydTDjodBTjJDA6tVxzAho", "https://dashblockexplorer.com/tx/"},
+		{"DigiByte (DGB)", "D97CQ5pV1AukRY1FJTSW3CFkJtUZgdwJq4", "https://digibyteblockexplorer.com/tx/"},
+		{"Dogecoin (DOGE)", "D5YP7CggUUkS3fu1B7RjhjJ7jvNu6A4Ksx", "https://dogeblocks.com/tx/"},
+		{"Ethereum (ETH)", "0x80D3CA7528cF05118131dBa3d7852Db2685c4b9E", "https://ethblockexplorer.org/tx/"},
+		{"FIRO (FIRO)", "a5R3Z4XBjj9oQS6kMgtfT5kMYMnA8Qx2Ga", "https://firoblockexplorers.com/tx/"},
+		{"Komodo (KMD)", "RQzp2jDRhRMrzBJZobGtUQhkQfcnfXdxWz", "https://komodoblockexplorer.com/tx/"},
+		{"Litecoin (LTC)", "LRQ6TBVXsEVPApbCY79bV1d9LR8E7JiuDd", "https://litecoinblockexplorer.net/tx/"},
+		{"Qtum (QTUM)", "QXFD7QitfegWXf4n4F9bVLU9HXqESgRVWq", "https://qtumblockexplorer.com/tx/"},
+		{"Ravencoin (RVN)", "RLMJbB268ayzGtJokjimNiLgdAccF8yv21", "https://rvnblockexplorer.com/tx/"},
+		{"ReddCoin (RDD)", "RvawiN6Ues4gxdu52JkKLQ7cKYSDDYwkUQ", "https://rddblockexplorer.com/tx/"},
+		{"Verge (XVG)", "DKY9rZfiw6qShLvWzKZCmuKJdiadDyhnVr", "https://xvgblockexplorer.com/tx/"},
+		{"Vertcoin (VTC)", "VmLS1YQuRVJT73ZkQyQNKWUPUCEsC95MSJ", "https://vtcblocks.com/tx/"},
+		{"Zcash (ZEC)", "t1gFJup6Mri4mZ1Pgqgzqmz2a3hg66Cpyga", "https://zecblockexplorer.com/tx/"},
+	}
+	local TOTAL_TIME = 15 * 60
+	local MINIMUM_LIMIT_PRICE = 0.00000001
+	local APP_PRICE = 0.01 -- in US Dollar
+	local timer_active = false
+	-- for know dialogue action
+	local dialogue_action = ""
+	-- Input data for verifying payment
+	local registered_txid = ""
+	local registered_address = ""
+	local registered_clock = ""
+	local registered_money = ""
+	local first_date = ""
+	local last_date = ""
+	local first_clock = ""
+	local last_clock = ""
+	-- this one depends on selected coin
+	local price_site_middle = ""
+	-- messages
+	local MESSAGE_PAYMENT_VERSION = "This payment method is not working anymore! Please download a new version of this program or contact the support section."
+	local MESSAGE_EXACT_PRICE = "You haven't paid exact price! Pay the amount not less or more before time runs out and enter its TXID."
+	local MESSAGE_ANOTHER_ADDRESS = "Your payment receipt was sent to another address and is not acceptable."
+	local MESSAGE_ANOTHER_CURRENCY = "Currently, payment with this digital currency is not possible. Choose another digital currency to pay."
+	local MESSAGE_ANOTHER_TIME = "Your payment receipt was registered at another time and is not acceptable."
+	local MESSAGE_ANOTHER_DATE = "Your payment receipt was registered on another date and is not acceptable."
+	local MESSAGE_TXID_NOT_EXIST = "Your transaction ID does not exist! Copy the transaction ID and then enter it in the desired place. Make sure your internet connection is also established."
+	local MESSAGE_EMPTY_TXID = "First, enter the TXID and then proceed to verify the purchase."
+	local MESSAGE_LOST_CONNECTION = "The Internet connection is lost! Try again or contact support in the [about] section."
+	local MESSAGE_HELP = "Once you know the price, go to your cryptocurrency account. Pay the price in that selected digital currency. After that, you must copy your payment's transaction hash ID (TXID). Then, go back to the program and paste the [TXID] in the bottom part. Press [Buy] button before time's up!"
+
+	function http_key_data_function(self, _, response)
+		connection_status(response.status)
+		local text = response.response
+		local num = 1
+		for line in text:gmatch("(.-)\n") do
+			if num == 1 then
+				if line ~= IAP_VERSION then
+					show_dialogue("back", "back", MESSAGE_PAYMENT_VERSION)
+					break
+				end
+			elseif num == 2 then
+				DATE_TIME_SITE = line
+			elseif num == 3 then
+				TIME_REGEX = line
+			elseif num == 4 then
+				DATE_REGEX = line
+			elseif num == 5 then
+				DATE_REMOVE = line
+			elseif num == 6 then
+				DATE_REPLACE = line
+			elseif num == 7 then
+				CLOCK_REGEX = line
+			elseif num == 8 then
+				PRICE_SITE = line
+			elseif num == 9 then
+				PRICE_SITE_REGEX = line
+			elseif num == 10 then
+				PRICE_SITE_PREFIX = line
+			elseif num == 11 then
+				PRICE_SITE_SUFFIX = line
+			elseif num == 12 then
+				COIN_REGEX_1 = line
+			elseif num == 13 then
+				COIN_REGEX_2 = line
+			elseif num == 14 then
+				COIN_UPPER_LOWER = line
+			elseif num == 15 then
+				COIN_REGEX_SEPARATOR = line
+			elseif num == 16 then
+				ADDRESS_PREFIX = line
+			elseif num == 17 then
+				ADDRESS_SUFFIX = line
+			elseif num == 18 then
+				TXID_PREFIX = line
+			elseif num == 19 then
+				TXID_SUFFIX = line
+			elseif num == 20 then
+				MONEY_PREFIX = line
+			elseif num == 21 then
+				MONEY_SUFFIX = line
+			elseif num == 22 then
+				DATE_PREFIX = line
+			elseif num == 23 then
+				DATE_SUFFIX = line
+			end
+			num = num + 1
+		end
+		get_web_content_from(PRICE_SITE, PRICE_SITE_PREFIX, price_site_middle, PRICE_SITE_SUFFIX, http_price_function)
+	end
+
+	local function get_time_in_seconds(text_time)
+		local time_parts = split_string_by(text_time, ":")
+		if tonumber(time_parts[1]) == 0 then
+			time_parts[1] = 24
+		end
+		local h = tonumber(time_parts[1]) * 60 * 60
+		local m = tonumber(time_parts[2]) * 60
+		local s = tonumber(time_parts[3])
+		return (h + m + s)
+	end
+
+	local function is_time_in_duration(text_time, first_time, last_time)
+		local the_time = get_time_in_seconds(text_time)
+		local the_first_time = get_time_in_seconds(first_time)
+		local the_last_time = get_time_in_seconds(last_time)
+		return (the_time >= the_first_time and the_time <= the_last_time)
+	end
+
+	function connection_status(code)
+		if not(code == 200 or code == 304) then
+			if registered_txid == "" then
+				show_dialogue("back", "internet_lost", MESSAGE_LOST_CONNECTION)
+			else
+				show_dialogue("", "internet_lost", MESSAGE_LOST_CONNECTION)
+			end
+			return
+		end	
+	end
+
+	function http_date_time_function(self, _, response)
+		connection_status(response.status)
+		local text = response.response
+		local time = string.match(text, TIME_REGEX)
+		local date = string.match(text, DATE_REGEX)
+		date = string.gsub(date, DATE_REMOVE, DATE_REPLACE)
+		gui.set_visible(paste_txid, true)
+		if registered_txid == "" then
+			first_date = date
+			first_clock = time
+		else
+			last_date = date
+			last_clock = time
+			verify()
+		end
+	end
+
+	local function get_date_time()
+		get_web_content_from(DATE_TIME_SITE, "", "", "", http_date_time_function)
+	end
+
+	function verify()
+		local url_site = get_coin_explorer() .. registered_txid
+		get_web_content_from(url_site, "", "", "", http_verify_function)
+	end
+
+	local function get_registered_clock(text)
+		local clock = text:match(CLOCK_REGEX)
+		if clock == nil then
+			return ""
+		else
+			return clock
+		end
+	end
+
+	function http_verify_function(self, _, response)
+		connection_status(response.status)	
+		local text = response.response
+		registered_clock = get_registered_clock(text)
+		-- test section (uncomment these for testing the verify section)
+		-- you have to set correct TXID in the app too.
+		test_IAP(TESTING)
+		-- End of test section
+		-- real money comes to account is "Total Output"
+		-- Total Output => Total Input - Transaction Fee
+		if string.find(text, ADDRESS_PREFIX .. registered_address .. ADDRESS_SUFFIX) then
+			if string.find(text, TXID_PREFIX .. registered_txid .. TXID_SUFFIX) then
+				if string.find(text, DATE_PREFIX .. first_date .. DATE_SUFFIX) or string.find(text, DATE_PREFIX .. last_date .. DATE_SUFFIX) then
+					if is_time_in_duration(registered_clock, first_clock, last_clock) then
+						if string.find(text, MONEY_PREFIX .. registered_money .. MONEY_SUFFIX) then
+							payment_successful()
+						else
+							show_dialogue("", "money", MESSAGE_EXACT_PRICE)
+						end
+					else
+						show_dialogue("", "clock", MESSAGE_ANOTHER_TIME)
+					end
+				else
+					show_dialogue("", "calendar", MESSAGE_ANOTHER_DATE)
+				end
+			else
+				show_dialogue("", "paste", MESSAGE_TXID_NOT_EXIST)
+			end
+		else
+			show_dialogue("", "wallet", MESSAGE_ANOTHER_ADDRESS)
+		end
+	end
+
+	function payment_successful()
+		user_bought = true
+		msg.post("main:/loader#loader", "unload_scene", { scene = "main:/loader#payment" })
+		msg.post("main:/loader#loader", "load_scene", { scene = "main:/loader#bought" })
+	end
+
+	function init(self)
+		msg.post(".", "acquire_input_focus")
+		define_buttons()
+		gui.set_text(timer_text, get_display_time(TOTAL_TIME))
+		counting_timer(self)
+		set_coin_icon()
+		-- if selected_payment is "ReddCoin (RDD)" and in the current situation, we use "RDD"
+		-- if price site codes will change, maybe we use "ReddCoin"
+		-- or maybe we use combination of them "ReddCoin RDD"
+		-- Defold is sensitive to lower/upper case
+		price_site_middle = get_coin_symbol(selected_payment)
+		BUY_CLICKED = false
+		get_web_content_from(KEY_DATA_SITE, "", "", "", http_key_data_function)
+	end
+
+	function on_input(self, action_id, action)
+		if handle_clicking(ok_dialogue, action_id, action) then
+			set_color_to_box(ok_dialogue, "ff0000")
+			if dialogue_action == "" then
+				hide_dialogue()
+			elseif dialogue_action == "back" then
+				go_back()
+			end
+		end
+		if gui.get_alpha(dialogue) ~= 0 then
+			return
+		end
+		handle_hovering(back, action)
+		handle_hovering(buy, action)
+		handle_hovering(copy_address, action)
+		handle_hovering(copy_price, action)
+		handle_hovering(paste_txid, action)
+		handle_hovering(help, action)
+		handle_hovering(copy_all, action)
+		if handle_clicking(copy_address, action_id, action) then
+			clipboard.copy(gui.get_text(text_address))
+		end
+		if handle_clicking(copy_price, action_id, action) then
+			clipboard.copy(gui.get_text(text_price))
+		end
+		if handle_clicking(paste_txid, action_id, action) and gui.get_visible(paste_txid) then
+			paste_operation()
+		end
+		if handle_clicking(copy_all, action_id, action) then
+			local contents = gui.get_text(text_address) .. "\n" .. gui.get_text(text_price) .. "\n" .. gui.get_text(txid)
+			clipboard.copy(contents)
+		end
+		if handle_clicking(back, action_id, action) then
+			go_back()
+		end
+		if handle_clicking(buy, action_id, action) then
+			go_next()
+		end
+		if handle_clicking(help, action_id, action) then
+			show_dialogue("", "help", MESSAGE_HELP)
+		end
+	end
+
+	function paste_operation()
+		local contents = clipboard.paste()
+		contents = remove_all_whitespaces(contents)
+		contents = split_string_by(contents, "/")
+		if contents ~= nil and #contents ~= 0 then
+			if type(contents) == "string" then
+				gui.set_text(txid, contents)
+			else
+				gui.set_text(txid, contents[#contents])
+			end
+			gui.animate(buy, "color", vmath.vector4(1, 0, 1, 1), gui.EASING_LINEAR, 2, 0, nil, gui.PLAYBACK_LOOP_PINGPONG)
+		else
+			gui.set_text(txid, "")
+		end
+		-- Show the buy button if data is pasted
+		if gui.get_text(txid) ~= "" and gui.get_alpha(dialogue) ~= 1 then
+			gui.set_visible(buy, true)
+		end
+	end
+
+	local function get_price_from_web(text)
+		return string.match(text, PRICE_SITE_REGEX)
+	end
+
+	function http_price_function(self, _, response)
+		PRICE_TEST_IS_OK = false
+		connection_status(response.status)	
+		local text = response.response
+		local number = get_just_number(get_price_from_web(text))
+		if number ~= nil then
+			PRICE_TEST_IS_OK = true
+			number = APP_PRICE / number
+			-- Converting a number to text format helps to show it in normal mode not in scientific notation.
+			-- For example, instead of (1.5e-07), we want (0.00000015)
+			local number_in_text = string.format("%.8f", number)
+			number = tonumber(number_in_text)
+			if number < MINIMUM_LIMIT_PRICE then
+				show_dialogue("back", "methods", MESSAGE_ANOTHER_CURRENCY)
+			else
+				gui.set_text(text_price, number_in_text)
+				timer_active = true
+				get_date_time()
+			end
+		else
+			get_web_content_from("https://raw.githubusercontent.com/bdshahab/iap_defold/main/","default%20prices/",selected_payment:gsub(" ", "%%20"),".txt", http_default_price_function)
+		end
+	end
+
+	function http_default_price_function(self, _, response)
+		connection_status(response.status)	
+		local number = response.response
+		number = get_just_number(number)
+		if number ~= nil then
+			number = APP_PRICE / number
+			-- Converting a number to text format helps to show it in normal mode not in scientific notation.
+			-- For example, instead of (1.5e-07), we want (0.00000015)
+			local number_in_text = string.format("%.8f", number)
+			number = tonumber(number_in_text)
+			if number < MINIMUM_LIMIT_PRICE then
+				show_dialogue("back", "methods", MESSAGE_ANOTHER_CURRENCY)
+			else
+				gui.set_text(text_price, number_in_text)
+				timer_active = true
+				get_date_time()
+			end
+		else
+			show_dialogue("back", "internet_lost", MESSAGE_LOST_CONNECTION)
+		end
+	end
+	
+	function get_coin_symbol(text)
+		local result = ""
+		if COIN_REGEX_1 ~= "" then
+			local sub_str = string.match(text, COIN_REGEX_1)
+			if sub_str ~= nil then
+				result = result .. sub_str
+			end
+		end
+		-- Remove the blank space at the beginning and end of the text
+		result = result:match("^%s*(.-)%s*$")
+
+		if COIN_REGEX_2 ~= "" then
+			result = result .. string.match(text, COIN_REGEX_2)
+		end
+
+		if string.find(result, " ") then
+			result = string.gsub(result, " ", COIN_REGEX_SEPARATOR)
+		end
+
+		if COIN_UPPER_LOWER == "upper" then
+			result = string.upper(result)
+		elseif COIN_UPPER_LOWER == "lower" then
+			result = string.lower(result)
+		end
+		return result
+	end
+
+	function get_web_content_from(main_site, site_prefix, site_middle, site_suffix, http_call_function)
+		http.request(main_site .. site_prefix .. site_middle .. site_suffix, "GET", http_call_function)
+	end
+
+	function get_display_time(number_seconds)
+		local sec = number_seconds % 60
+		local minute = math.floor(number_seconds / 60)
+		return string.format("%02d:%02d", minute, sec)
+	end
+
+	function hide_dialogue()
+		gui.set_alpha(dialogue, 0)
+	end
+
+	function show_dialogue(action, icon, text)
+		dialogue_action = action
+		gui.set_text(text_dialogue, text)
+		gui.play_flipbook(logo_dialogue, icon)
+		gui.set_alpha(dialogue, 1)
+	end
+
+	local function timer(self)
+		-- update the timer variables
+		local current_time = socket.gettime() -- the current real time
+		local delta_time = current_time - self.last_time -- the real time difference
+		self.last_time = current_time -- update the last real time
+		if timer_active then
+			-- increment the timer by the real time difference
+			self.timer = self.timer - delta_time
+			gui.set_text(timer_text, get_display_time(self.timer))
+			if self.timer > 2 * (TOTAL_TIME / 3) then
+				gui.set_color(timer_text, vmath.vector4(0, 0, 1, 1))
+			elseif self.timer > (TOTAL_TIME / 3) then
+				gui.set_color(timer_text, vmath.vector4(1, 1, 0, 1))
+			else
+				gui.set_color(timer_text, vmath.vector4(1, 0, 0, 1))
+			end
+			-- check if the timer reaches the maximum value
+			if self.timer <= self.timer_max then
+				-- stop the timer and do something
+				timer_active = false
+				go_back()
+			end
+		end
+	end
+
+	function go_next()
+		if not BUY_CLICKED then
+			BUY_CLICKED = true
+		else
+			return
+		end
+		if gui.get_text(txid) == "" and gui.get_alpha(dialogue) ~= 1 then
+			show_dialogue("", "paste", MESSAGE_EMPTY_TXID)
+		else
+			registered_address = gui.get_text(text_address)
+			registered_txid = gui.get_text(txid)
+			registered_money = gui.get_text(text_price)
+			get_date_time()
+		end
+	end
+
+	function set_coin_icon()
+		gui.play_flipbook(selected_payment_icon, string.lower(selected_payment))
+		for i, value in ipairs(addresses) do
+			-- value[1] => coin name & value[2] => address
+			if string.lower(value[1]) == string.lower(selected_payment) then
+				gui.set_text(text_address, value[2])
+				break
+			end
+		end
+	end
+
+	function get_coin_explorer()
+		local url_explorer = ""
+		for i, value in ipairs(addresses) do
+			-- value[1] => coin name & value[3] => url explorer
+			if string.lower(value[1]) == string.lower(selected_payment) then
+				url_explorer = value[3]
+				break
+			end
+		end
+		return url_explorer
+	end
+
+	function update(self, dt)
+		timer(self)
+	end
+
+	function counting_timer(self)
+		self.timer = TOTAL_TIME -- the current timer value
+		self.timer_max = 0 -- the maximum timer value
+		self.last_time = socket.gettime() -- the last real time
+	end
+
+	function go_back()
+		if dialogue_action == "back" or gui.get_alpha(dialogue) ~= 1 then
+			msg.post("main:/loader#loader", "unload_scene", { scene = "main:/loader#payment" })
+			msg.post("main:/loader#loader", "load_scene", { scene = "main:/loader#select_coin" })
+		end
+	end
+
+	function get_just_number(text)
+		if text ~= nil then
+			if tonumber(text) ~= nil then
+				return tonumber(text)
+			end
+			local pattern = "%d+,*%d*.%d+"  -- This pattern matches any number, including integers and decimals
+			return string.match(text, pattern)
+		else
+			return text
+		end
+	end
+
+	function remove_all_whitespaces(text)
+		return string.gsub(text, "%s", "")
+	end
+
+	function split_string_by(text, split_char)
+		if not string.find(text, split_char) then
+			return text
+		end
+		local split_text = {}
+		for part in text:gmatch("[^" .. split_char .. "]+") do
+			table.insert(split_text, part)
+		end
+		return split_text
+	end
+
+	function set_color_to_box(box, color_string)
+		local color = vmath.vector4(
+		tonumber(color_string:sub(1, 2), 16) / 255,
+		tonumber(color_string:sub(3, 4), 16) / 255,
+		tonumber(color_string:sub(5, 6), 16) / 255,
+		1.0)
+		gui.set_color(box, color)
+	end
+
+	function define_buttons()
+		dialogue = gui.get_node("dialogue")
+		ok_dialogue = gui.get_node("ok_dialogue")
+		back = gui.get_node("back")
+		buy = gui.get_node("buy")
+		copy_address = gui.get_node("copy_address")
+		copy_price = gui.get_node("copy_price")
+		paste_txid = gui.get_node("paste_txid")
+		help = gui.get_node("help")
+		copy_all = gui.get_node("copy_all")
+		text_price = gui.get_node("text_price")
+		txid_field = gui.get_node("txid_field")
+		txid = gui.get_node("txid")
+		selected_payment_icon = gui.get_node("selected_payment_icon")
+		text_address = gui.get_node("text_address")
+		timer_text = gui.get_node("timer")
+		text_dialogue = gui.get_node("text_dialogue")
+		logo_dialogue = gui.get_node("logo_dialogue")
+	end
+
+	function test_IAP(value)
+		--[[
+		This is for testing this payment method.
+		You have to select Litecoin and set the TXID.
+		We're using this payment from this website:
+		https://litecoinblockexplorer.net/tx/61a7667851da2d1395c26f4eaba7a14a3c1355ba80e1b35678327619a115d21e
+		txid = "61a7667851da2d1395c26f4eaba7a14a3c1355ba80e1b35678327619a115d21e"
+		address = "LRQ6TBVXsEVPApbCY79bV1d9LR8E7JiuDd"
+		registered_clock = "07:05:47"
+
+		"Total Input" is the total amount of money the user paid.
+		"Transaction Fee" is the amount of money the user paid for that transaction.
+		"Total Output" is the amount of money the producer receives.
+		In summary:
+		Total Output == Total Input - Transaction Fee
+		]]
+		if not value then
+			return
+		end
+
+		print("Data:")
+		print("PRICE_TEST_IS_OK: " .. tostring(PRICE_TEST_IS_OK))
+		print("registered_address: " .. registered_address)
+		print("registered_txid: " .. registered_txid)
+		print("registered_clock: " .. registered_clock)
+
+		print("Data before change:")
+		print("registered_money: " .. registered_money)
+		print("first_date: " .. first_date)
+		print("last_date: " .. last_date)
+		print("first_clock: " .. first_clock)
+		print("last_clock: " .. last_clock)
+
+		registered_money = "0.00994753"
+		first_date = "08 Feb 2022"
+		last_date = "09 Feb 2022"
+		first_clock = "07:00:00"
+		last_clock = "07:10:00"
+
+		print("Data After change:")
+		print("registered_money: " .. registered_money)
+		print("first_date: " .. first_date)
+		print("last_date: " .. last_date)
+		print("first_clock: " .. first_clock)
+		print("last_clock: " .. last_clock)
+		print("Result of test:")
+		local result_of_test = false
+		if (registered_address == "LRQ6TBVXsEVPApbCY79bV1d9LR8E7JiuDd") then
+			if (registered_txid == "61a7667851da2d1395c26f4eaba7a14a3c1355ba80e1b35678327619a115d21e") then
+				if (registered_clock == "07:05:47") then
+					if (registered_address == "LRQ6TBVXsEVPApbCY79bV1d9LR8E7JiuDd") then
+						if (registered_money == "0.00994753") then
+							if (first_date == "08 Feb 2022") then
+								if (last_date == "09 Feb 2022") then
+									if (first_clock == "07:00:00") then
+										if (last_clock == "07:10:00") then
+											result_of_test = true
+										end
+									end
+								end
+							end
+						end
+					end
+				end
+			end
+		end
+		if result_of_test and PRICE_TEST_IS_OK then
+			print("Congratulations! The test was successful!")
+		elseif PRICE_TEST_IS_OK then
+			print("Only the price test from the main site was successful.")
+		else
+			print("Sorry! The test was unsuccessful.")
+		end
+	end
