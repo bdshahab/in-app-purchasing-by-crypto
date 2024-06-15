@@ -1,0 +1,320 @@
+local normal_color = vmath.vector4(0.7, 0.7, 0.7, 1)
+local hover_color = vmath.vector4(1, 1, 1, 1)
+
+local blogger_url = "https://bdshahab.blogspot.com"
+local blue_sky_url = "https://bsky.app/profile/bdshahab.bsky.social"
+local chess_com_url = "https://www.chess.com/member/bdshahab1982"
+local clouthub_url = "https://app.clouthub.com/#/users/u/bdshahab"
+local diamondapp_url = "https://diamondapp.com/u/bdshahab"
+local diaspora_url = "https://diasp.org/u/bdshahab"
+local discord_url = "https://discord.gg/xgMdTXBhnE"
+local facebook_url = "https://www.facebook.com/shahab.baradaran.dilmaghani"
+local flickr_url = "https://www.flickr.com/photos/bdshahab"
+local flipboard_url = "https://flipboard.com/@bdshahab1982"
+
+local gab_url = "https://gab.com/bdshahab"
+local gettr_url = "https://gettr.com/user/bdshahab"
+local instagram_url = "https://www.instagram.com/bdshahab1982"
+local itch_io_url = "https://bdshahab.itch.io"
+local justpaste_it_url = "https://justpaste.it/u/bdshahab"
+local lichess_url = "https://lichess.org/@/bdshahab"
+local linkedin_url = "https://www.linkedin.com/company/bdshahab"
+local livejournal_url = "https://bdshahab1982.livejournal.com"
+local mastodon_url = "https://mastodon.social/@bdshahab"
+local matrix_url = "https://matrix.to/#/#bdshahab:matrix.org"
+
+local medium_url = "https://bdshahab.medium.com"
+local mewe_url = "https://mewe.com/bdshahab"
+local minds_url = "https://www.minds.com/bdshahab"
+local odysee_url = "https://odysee.com/@bdshahab"
+local pinterest_url = "https://www.pinterest.com/bdshahab"
+local primal_url = "https://primal.net/p/npub1lu5m9cjqnyaqay0uc77t526qjtkx5qu8qxe8l2kqrflmagac3c8q7g8nu5"
+local reddit_url = "https://www.reddit.com/r/bdshahab"
+local rumble_url = "https://rumble.com/c/c-1832445"
+local spoutible_url = "https://spoutible.com/bdshahab"
+local steemit_url = "https://steemit.com/@bdshahab"
+
+local telegram_url = "https://t.me/bd_shahab"
+local the_dots_url = "https://the-dots.com/users/shahab-baradaran-dilmaghani-1291359"
+local threads_url = "https://www.threads.net/@bdshahab1982"
+local tiktok_url = "https://www.tiktok.com/@bdshahab"
+local tumblr_url = "https://bdshahab.tumblr.com"
+local vk_url = "https://vk.com/bdshahab"
+local wordpress_url = "https://bdsh.wordpress.com"
+local x_url = "https://x.com/bdshahab"
+local xing_url = "https://www.xing.com/profile/Shahab_BaradaranDilmaghani"
+local youtube_url = "https://www.youtube.com/@bdshahab"
+
+local function open_website(url_text)
+	sys.open_url(url_text)
+end
+
+-- Create a button or interface element that calls the open_website function when clicked
+function maximize_program()
+	-- add this dependency library: https://github.com/subsoap/defos
+	-- Then:
+	-- Maximize the window
+	defos.set_maximized(true)
+end
+
+function init(self)
+	maximize_program()
+	msg.post(".", "acquire_input_focus")
+	define_buttons()
+end
+
+function handle_hovering(box, action)
+	if action.x and action.y then
+		-- check if the mouse is over the box
+		local over_box = gui.pick_node(box, action.x, action.y)
+		if over_box then
+			-- change the cursor to a hand
+			defos.set_cursor(defos.CURSOR_HAND)
+			gui.set_color(box, normal_color)
+			gui.set_color(ok, vmath.vector4(0.7, 0, 0, 1))
+		else
+			defos.reset_cursor()
+			gui.set_color(box, hover_color)
+			gui.set_color(ok, vmath.vector4(1, 0, 0, 1))
+		end
+	end
+end
+
+function handle_clicking(box, action_id, action)
+	if action_id == hash("touch") and action.pressed then
+		if gui.pick_node(box, action.x, action.y) then
+			return true
+		end
+	end
+end
+
+function on_input(self, action_id, action)
+	-- hovering
+	handle_hovering(license, action)
+	handle_hovering(bdshahab, action)
+	handle_hovering(app_name, action)
+	handle_hovering(blogger, action)
+	handle_hovering(blue_sky, action)
+	handle_hovering(chess_com , action)
+	handle_hovering(clouthub, action)
+	handle_hovering(diamondapp, action)
+	handle_hovering(diaspora, action)
+	handle_hovering(discord, action)
+	handle_hovering(facebook, action)
+	handle_hovering(flickr, action)
+	handle_hovering(flipboard, action)
+	handle_hovering(gab, action)
+	handle_hovering(gettr, action)
+	handle_hovering(instagram, action)
+	handle_hovering(itch_io, action)
+	handle_hovering(justpaste_it, action)
+	handle_hovering(lichess, action)
+	handle_hovering(linkedin, action)
+	handle_hovering(livejournal, action)
+	handle_hovering(mastodon, action)
+	handle_hovering(matrix, action)
+	handle_hovering(medium, action)
+	handle_hovering(mewe, action)
+	handle_hovering(minds, action)
+	handle_hovering(odysee, action)
+	handle_hovering(pinterest, action)
+	handle_hovering(primal, action)
+	handle_hovering(reddit, action)
+	handle_hovering(rumble, action)
+	handle_hovering(spoutible, action)
+	handle_hovering(steemit, action)
+	handle_hovering(telegram, action)
+	handle_hovering(the_dots, action)
+	handle_hovering(threads, action)
+	handle_hovering(tiktok, action)
+	handle_hovering(tumblr, action)
+	handle_hovering(vk, action)
+	handle_hovering(wordpress, action)
+	handle_hovering(x, action)
+	handle_hovering(xing, action)
+	handle_hovering(youtube, action)
+	handle_hovering(ok, action)
+	--clicking
+	if handle_clicking(ok, action_id, action) then
+		msg.post("main:/loader#loader", "unload_scene", { scene = "main:/loader#about" })
+		msg.post("main:/loader#loader", "load_scene", { scene = "main:/loader#main_menu" })
+	end
+	if handle_clicking(license, action_id, action) then
+		open_website("https://creativecommons.org/licenses/by/4.0")
+	end
+	if handle_clicking(bdshahab, action_id, action) then
+		open_website("https://lnk.bio/bdshahab")
+	end
+	if handle_clicking(app_name, action_id, action) then
+		open_website("https://duckduckgo.com/?q=in-app purchase by cryptocurrency bdshahab")
+	end
+	
+	if handle_clicking(blogger, action_id, action) then
+		open_website(blogger_url)
+	end
+	if handle_clicking(blue_sky, action_id, action) then
+		open_website(blue_sky_url)
+	end
+	if handle_clicking(chess_com, action_id, action) then
+		open_website(chess_com_url)
+	end
+	if handle_clicking(clouthub, action_id, action) then
+		open_website(clouthub_url)
+	end
+	if handle_clicking(diamondapp, action_id, action) then
+		open_website(diamondapp_url)
+	end
+	if handle_clicking(diaspora, action_id, action) then
+		open_website(diaspora_url)
+	end
+	if handle_clicking(discord, action_id, action) then
+		open_website(discord_url)
+	end
+	if handle_clicking(facebook, action_id, action) then
+		open_website(facebook_url)
+	end
+	if handle_clicking(flickr, action_id, action) then
+		open_website(flickr_url)
+	end
+	if handle_clicking(flipboard, action_id, action) then
+		open_website(flipboard_url)
+	end
+	if handle_clicking(gab, action_id, action) then
+		open_website(gab_url)
+	end
+	if handle_clicking(gettr, action_id, action) then
+		open_website(gettr_url)
+	end
+	if handle_clicking(instagram, action_id, action) then
+		open_website(instagram_url)
+	end
+	if handle_clicking(itch_io, action_id, action) then
+		open_website(itch_io_url)
+	end
+	if handle_clicking(justpaste_it, action_id, action) then
+		open_website(justpaste_it_url)
+	end
+	if handle_clicking(lichess, action_id, action) then
+		open_website(lichess_url)
+	end
+	if handle_clicking(linkedin, action_id, action) then
+		open_website(linkedin_url)
+	end
+	if handle_clicking(livejournal, action_id, action) then
+		open_website(livejournal_url)
+	end
+	if handle_clicking(mastodon, action_id, action) then
+		open_website(mastodon_url)
+	end
+	if handle_clicking(matrix, action_id, action) then
+		open_website(matrix_url)
+	end
+	if handle_clicking(medium, action_id, action) then
+		open_website(medium_url)
+	end
+	if handle_clicking(mewe, action_id, action) then
+		open_website(mewe_url)
+	end
+	if handle_clicking(minds, action_id, action) then
+		open_website(minds_url)
+	end
+	if handle_clicking(odysee, action_id, action) then
+		open_website(odysee_url)
+	end
+	if handle_clicking(pinterest, action_id, action) then
+		open_website(pinterest_url)
+	end
+	if handle_clicking(primal, action_id, action) then
+		open_website(primal_url)
+	end
+	if handle_clicking(reddit, action_id, action) then
+		open_website(reddit_url)
+	end
+	if handle_clicking(rumble, action_id, action) then
+		open_website(rumble_url)
+	end
+	if handle_clicking(spoutible, action_id, action) then
+		open_website(spoutible_url)
+	end
+	if handle_clicking(steemit, action_id, action) then
+		open_website(steemit_url)
+	end
+	if handle_clicking(telegram, action_id, action) then
+		open_website(telegram_url)
+	end
+	if handle_clicking(the_dots, action_id, action) then
+		open_website(the_dots_url)
+	end
+	if handle_clicking(threads, action_id, action) then
+		open_website(threads_url)
+	end
+	if handle_clicking(tiktok, action_id, action) then
+		open_website(tiktok_url)
+	end
+	if handle_clicking(tumblr, action_id, action) then
+		open_website(tumblr_url)
+	end
+	if handle_clicking(vk, action_id, action) then
+		open_website(vk_url)
+	end
+	if handle_clicking(wordpress, action_id, action) then
+		open_website(wordpress_url)
+	end
+	if handle_clicking(x, action_id, action) then
+		open_website(x_url)
+	end
+	if handle_clicking(xing, action_id, action) then
+		open_website(xing_url)
+	end
+	if handle_clicking(youtube, action_id, action) then
+		open_website(youtube_url)
+	end
+end
+
+function define_buttons()
+	ok = gui.get_node("ok")
+	license = gui.get_node("license")
+	bdshahab = gui.get_node("bdshahab")
+	app_name = gui.get_node("app_name")
+
+	blogger = gui.get_node("blogger")
+	blue_sky = gui.get_node("blue_sky")
+	chess_com = gui.get_node("chess_com")
+	clouthub = gui.get_node("clouthub")
+	diamondapp = gui.get_node("diamondapp")
+	diaspora = gui.get_node("diaspora")
+	discord = gui.get_node("discord")
+	facebook = gui.get_node("facebook")
+	flickr = gui.get_node("flickr")
+	flipboard = gui.get_node("flipboard")
+	gab = gui.get_node("gab")
+	gettr = gui.get_node("gettr")
+	instagram = gui.get_node("instagram")
+	itch_io = gui.get_node("itch_io")
+	justpaste_it = gui.get_node("justpaste_it")
+	lichess = gui.get_node("lichess")
+	linkedin = gui.get_node("linkedin")
+	livejournal = gui.get_node("livejournal")
+	mastodon = gui.get_node("mastodon")
+	matrix = gui.get_node("matrix")
+	medium = gui.get_node("medium")
+	mewe = gui.get_node("mewe")
+	minds = gui.get_node("minds")
+	odysee = gui.get_node("odysee")
+	pinterest = gui.get_node("pinterest")
+	primal = gui.get_node("primal")
+	reddit = gui.get_node("reddit")
+	rumble = gui.get_node("rumble")
+	spoutible = gui.get_node("spoutible")
+	steemit = gui.get_node("steemit")
+	telegram = gui.get_node("telegram")
+	the_dots = gui.get_node("the_dots")
+	threads = gui.get_node("threads")
+	tiktok = gui.get_node("tiktok")
+	tumblr = gui.get_node("tumblr")
+	vk = gui.get_node("vk")
+	wordpress = gui.get_node("wordpress")
+	x = gui.get_node("x")
+	xing = gui.get_node("xing")
+	youtube = gui.get_node("youtube")
+end
