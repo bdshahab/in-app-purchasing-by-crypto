@@ -14,16 +14,16 @@ You can test the program by activating the "test_IAP" function.
 	-- updatable key data
 	local IAP_VERSION = "3"
 	-- To get the current Date & Time
-	local DATE_TIME_SITE = "https://time.is/Unix_time"
-	local TIME_REGEX = "_tD%((%d+)%)"
+	local DATE_TIME_SITE = "https://unixtime.org"
+	local TIME_REGEX = " (%d%d:%d%d:%d%d) GMT</td><td>"
 	local DATE_REGEX = "%a+, (%d+ %a+ %d+) "
 	local DATE_REMOVE = "-"
 	local DATE_REPLACE = " "
 	local CLOCK_REGEX = "(%d%d:%d%d:%d%d)"
 
 	-- To get the current price of coins
-	local PRICE_SITE = "https://www.coingecko.com/en/coins/"
-	local PRICE_SITE_REGEX = '"price": (%d+,*%d*.%d+),'
+	local PRICE_SITE = "https://cryptorank.io/price/"
+	local PRICE_SITE_REGEX = 'Price $ (%d+,*%d*.%d+), Market Cap'
 	local PRICE_SITE_PREFIX = ""
 	local PRICE_SITE_SUFFIX = ""
 	local COIN_REGEX_1 = "([^%(]+)" -- '(%a+%s%a+) %(%a+%)' --'%((%a+)%)'
