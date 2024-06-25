@@ -6,15 +6,16 @@ You can test the program by activating the "test_IAP" function.
 	Also, the payment type must be Litecoin.
 	https://litecoinblockexplorer.net/tx/61a7667851da2d1395c26f4eaba7a14a3c1355ba80e1b35678327619a115d21e
 	]]
-	local TESTING = false
+	local TESTING = not false
 	local PRICE_TEST_IS_OK = false
 	local BUY_CLICKED = false
-	local KEY_DATA_SITE = "https://raw.githubusercontent.com/bdshahab/iap_defold/main/key_data.txt"
+	local GITHUB = "https://raw.githubusercontent.com/bdshahab/iap_defold/main/"
+	local KEY_DATA_SITE = GITHUB .. "key_data.txt"
 	-- updatable key data
 	local IAP_VERSION = "3"
 	-- To get the current Date & Time
-	local DATE_TIME_SITE = "https://www.unixtimestamp.com"
-	local TIME_REGEX = " (%d%d:%d%d:%d%d) UTC</td>"
+	local DATE_TIME_SITE = "https://time.is/Unix_time"
+	local TIME_REGEX = "_tD%((%d+)%)"
 	local DATE_REGEX = "%a+, (%d+ %a+ %d+) "
 	local DATE_REMOVE = "-"
 	local DATE_REPLACE = " "
@@ -168,7 +169,7 @@ You can test the program by activating the "test_IAP" function.
 	function connection_status(code)
 		if not(code == 200 or code == 304) then
 			if registered_txid == "" then
-				show_dialogue("back", "internet_lost", MESSAGE_LOST_CONNECTION)
+				--show_dialogue("back", "internet_lost", MESSAGE_LOST_CONNECTION)
 			else
 				show_dialogue("", "internet_lost", MESSAGE_LOST_CONNECTION)
 			end
@@ -294,7 +295,7 @@ You can test the program by activating the "test_IAP" function.
 			paste_operation()
 		end
 		if handle_clicking(copy_all, action_id, action) then
-			local contents = gui.get_text(text_address) .. "\n" .. gui.get_text(text_price) .. "\n" .. gui.get_text(txid)
+			local contents = selected_payment .. "\n" .. gui.get_text(text_address) .. "\n" .. gui.get_text(text_price) .. "\n" .. gui.get_text(txid)
 			clipboard.copy(contents)
 		end
 		if handle_clicking(back, action_id, action) then
@@ -334,7 +335,7 @@ You can test the program by activating the "test_IAP" function.
 
 	function http_price_function(self, _, response)
 		PRICE_TEST_IS_OK = false
-		connection_status(response.status)	
+		connection_status(response.status)
 		local text = response.response
 		local number = get_just_number(get_price_from_web(text))
 		if number ~= nil then
@@ -352,12 +353,13 @@ You can test the program by activating the "test_IAP" function.
 				get_date_time()
 			end
 		else
-			get_web_content_from("https://raw.githubusercontent.com/bdshahab/iap_defold/main/","default%20prices/",selected_payment:gsub(" ", "%%20"),".txt", http_default_price_function)
+			local coin_str = selected_payment:gsub(" ", "%%20")
+			get_web_content_from(GITHUB,"default%20prices/", coin_str,".txt", http_default_price_function)
 		end
 	end
 
 	function http_default_price_function(self, _, response)
-		connection_status(response.status)	
+		connection_status(response.status)
 		local number = response.response
 		number = get_just_number(number)
 		if number ~= nil then
@@ -377,7 +379,7 @@ You can test the program by activating the "test_IAP" function.
 			show_dialogue("back", "internet_lost", MESSAGE_LOST_CONNECTION)
 		end
 	end
-	
+
 	function get_coin_symbol(text)
 		local result = ""
 		if COIN_REGEX_1 ~= "" then
@@ -631,6 +633,8 @@ You can test the program by activating the "test_IAP" function.
 		end
 		if result_of_test and PRICE_TEST_IS_OK then
 			print("Congratulations! The test was successful!")
+		elseif result_of_test then
+			print("Only Verifying part was successful.")
 		elseif PRICE_TEST_IS_OK then
 			print("Only the price test from the main site was successful.")
 		else
