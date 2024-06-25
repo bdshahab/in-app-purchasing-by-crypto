@@ -1,12 +1,12 @@
 3
-https://www.unixtimestamp.com
- (%d%d:%d%d:%d%d) UTC</td>
+https://unixtime.org
+ (%d%d:%d%d:%d%d) GMT</td><td>
 %a+, (%d+ %a+ %d+) 
 -
  
 (%d%d:%d%d:%d%d)
-https://www.coingecko.com/en/coins/
-"price": (%d+,*%d*.%d+),
+https://cryptorank.io/price/
+Price $ (%d+,*%d*.%d+), Market Cap
 
 
 ([^%(]+)
