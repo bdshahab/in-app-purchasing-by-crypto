@@ -26,7 +26,7 @@ You can test the program by activating the "test_IAP" function.
 	local PRICE_SITE_REGEX = 'Price $ (%d+,*%d*.%d+), Market Cap'
 	local PRICE_SITE_PREFIX = ""
 	local PRICE_SITE_SUFFIX = ""
-	local COIN_REGEX_1 = "([^%(]+)" -- '(%a+%s%a+) %(%a+%)' --'%((%a+)%)'
+	local COIN_REGEX_1 = "([^%(]+)"
 	local COIN_REGEX_2 = ""
 	local COIN_UPPER_LOWER = "lower"--"lower" -- upper if uppercase and lower if lowercase and nothing("") for none
 	local COIN_REGEX_SEPARATOR = "-"
@@ -168,9 +168,7 @@ You can test the program by activating the "test_IAP" function.
 
 	function connection_status(code)
 		if not(code == 200 or code == 304) then
-			if registered_txid == "" then
-				--show_dialogue("back", "internet_lost", MESSAGE_LOST_CONNECTION)
-			else
+			if registered_txid ~= "" then
 				show_dialogue("", "internet_lost", MESSAGE_LOST_CONNECTION)
 			end
 			return
@@ -235,6 +233,7 @@ You can test the program by activating the "test_IAP" function.
 						show_dialogue("", "clock", MESSAGE_ANOTHER_TIME)
 					end
 				else
+					BUY_CLICKED = false
 					show_dialogue("", "calendar", MESSAGE_ANOTHER_DATE)
 				end
 			else
@@ -422,6 +421,7 @@ You can test the program by activating the "test_IAP" function.
 	end
 
 	function show_dialogue(action, icon, text)
+		BUY_CLICKED = false
 		dialogue_action = action
 		gui.set_text(text_dialogue, text)
 		gui.play_flipbook(logo_dialogue, icon)
@@ -457,6 +457,7 @@ You can test the program by activating the "test_IAP" function.
 		if not BUY_CLICKED then
 			BUY_CLICKED = true
 		else
+			BUY_CLICKED = false
 			return
 		end
 		if gui.get_text(txid) == "" and gui.get_alpha(dialogue) ~= 1 then
