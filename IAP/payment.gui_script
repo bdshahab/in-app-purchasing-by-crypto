@@ -458,7 +458,6 @@ You can test the program by activating the "test_IAP" function.
 		if not BUY_CLICKED then
 			BUY_CLICKED = true
 		else
-			BUY_CLICKED = false
 			return
 		end
 		if gui.get_text(txid) == "" and gui.get_alpha(dialogue) ~= 1 then
