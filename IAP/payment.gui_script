@@ -92,6 +92,7 @@ You can test the program by activating the "test_IAP" function.
 		connection_status(response.status)
 		local text = response.response
 		local num = 1
+		-- iterate over each line in the string text, capturing the content of each line without the newline character
 		for line in text:gmatch("(.-)\n") do
 			if num == 1 then
 				if line ~= IAP_VERSION then
