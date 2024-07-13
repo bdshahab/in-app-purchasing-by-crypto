@@ -23,19 +23,6 @@ https://youtu.be/QOaZi6Bp4og
 
 Using this program's method, you can make in-app purchases using cryptocurrencies.
 
-This program is written in Defold game engine and Lua programming language:
-
-
-https://defold.com
-
-Library for copy/paste clipboard:
-
-https://github.com/britzl/defold-clipboard
-
-Library for extra native OS functions(Maximize window,...):
-
-https://github.com/subsoap/defos
-
 
 Users only had limited time to finish payment.
 
