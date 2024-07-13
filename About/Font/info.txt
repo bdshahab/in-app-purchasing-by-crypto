@@ -1,2 +1,0 @@
-﻿license: Apache License 2.0
-link: https://www.fontspace.com/noto-serif-font-f22282
