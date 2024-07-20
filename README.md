@@ -1,6 +1,7 @@
 # In-app purchasing by cryptocurrency
 
 (It's not a plugin!)
+
 For Defold game engine:
 https://github.com/bdshahab/iap_defold
 
