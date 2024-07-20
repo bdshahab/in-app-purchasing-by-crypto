@@ -4,7 +4,7 @@
 For Defold game engine:
 https://github.com/bdshahab/iap_defold
 
-For Godot game engine (under construction):
+For Godot game engine:
 https://github.com/bdshahab/iap_godot
 
 
