@@ -2,12 +2,18 @@
 
 (It's not a plugin!)
 
-For Defold game engine:
-https://github.com/bdshahab/iap_defold
+Published in 2 Game Engines:
 
-For Godot game engine:
-https://github.com/bdshahab/iap_godot
+Defold:
+https://defold.com/assets/crypto_iap
+Godot:
+https://godotengine.org/asset-library/asset/3158
+ 
+Source code:
 
+For Defold game engine: https://github.com/bdshahab/iap_defold
+
+For Godot game engine: https://github.com/bdshahab/iap_godot
 
 <img width="859" alt="1" src="https://github.com/bdshahab/in-app-purchasing-by-crypto/assets/17976016/e7ee57fe-dc7a-401c-8395-848e584e5ec8">
 
