@@ -4,13 +4,9 @@
 
 Published in 2 Game Engines:
 
-Defold:
+Defold: https://defold.com/assets/crypto_iap
 
-https://defold.com/assets/crypto_iap
-
-Godot:
-
-https://godotengine.org/asset-library/asset/3158
+Godot: https://godotengine.org/asset-library/asset/3158
  
 Source code:
 
