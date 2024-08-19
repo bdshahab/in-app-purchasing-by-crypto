@@ -38,21 +38,20 @@ The user picks the method of payment, and then the app shows the price in that c
 
 In-app payment using cryptocurrencies
 
-Due to various restrictive laws or sanctions, financial exchanges are not available in a free and equal way for everyone in the world; But cryptocurrencies do not have any geographical limitations, and they are not limited to anyone. App stores usually follow those rules and sanctions, and for that reason, some developers cannot sell their products.
+Due to various restrictive laws or sanctions, financial exchanges are not available in a free and equal way for everyone in the world. Still, cryptocurrencies do not have any geographical limitations, and they are not limited to anyone. App stores usually follow those rules and sanctions, and for that reason, some developers cannot sell their products.
 
-However, those app stores also deduct a significant percentage of the sales as commissions and taxes from the income of developers! However, it is possible to make in-app purchases by using cryptocurrencies to prevent that.
+However, those app stores also deduct a significant percentage of the sales as commissions and taxes from the income of developers! However, making in-app purchases using cryptocurrencies is possible to prevent that.
 
-In fact, with this method, the need for banks and app stores is eliminated, and as a result, no one will be under legal restrictions or sanctions, and the entire income directly will go to the developers, and they will not need to pay fees and taxes.
+In fact, with this method, the need for banks and app stores is eliminated, and as a result, no one will be under legal restrictions or sanctions, and the entire income will directly go to the developers, and they will not need to pay fees and taxes.
 
 How the program works: The programmer puts the price of the program based on dollars in his program, and then the program shows the user the price of the program according to the price of the selected digital currency every time it is executed.
 
-It is possible to determine the price by using one of the cryptocurrency price announcement sites by raw source code. Then, the user must deposit the desired price in that cryptocurrency to the specified account address within the time limit. Each money deposit through cryptocurrencies has a payment ID(Transaction Hash ID); The user must provide that payment ID to the app to validate it, and if it is validated, the purchase will be accepted.
+It is possible to determine the price by using one of the cryptocurrency price announcement sites by raw source code. Then, the user must deposit the desired price in that cryptocurrency to the specified account address within the time limit. Each money deposit through cryptocurrencies has a payment ID(Transaction Hash ID); The user must provide that payment ID to the app to validate it; if it is validated, the purchase will be accepted.
 
 Various cryptocurrency transaction tracking sites can be used to confirm the payment.
 
-Cryptocurrencies are free for everyone to use them. Websites for announcing the price of cryptocurrencies are also free to access for everyone. Websites tracking transactions are also accessible freely. As a result, programmers don't need middlemen paying them for these financial affairs and selling their products. There is no law or sanction against this method of earning money, and only accessing the Internet is enough.
+Cryptocurrencies are free for everyone to use them. Websites announcing the price of cryptocurrencies are also free for everyone to access. Websites tracking transactions are also accessible freely. As a result, programmers don't need middlemen paying them for these financial affairs and selling their products. There is no law or sanction against this method of earning money; only accessing the Internet is enough.
 
-For those cases where the price announcement site is down, a default price list has been placed on this GitHub site to be used.
-These default prices are in their folder (default prices) on this site.
+For those cases where the price announcement site is down, a default price list has been placed on this GitHub site to be used. These default prices are in their folder (default prices) on this site.
 
 Key information is updated through a special file (key_data.txt) on this GitHub site so that possible problems can be solved quickly in the future and there is no need to produce a new program and download it by the customer.
