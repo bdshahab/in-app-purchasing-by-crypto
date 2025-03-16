@@ -2,12 +2,14 @@
 
 (It's not a plugin!)
 
-Published in 2 Game Engines:
+Published in Python and in 2 Game Engines:
 
 Defold: https://defold.com/assets/crypto_iap
 
 Godot: https://godotengine.org/asset-library/asset/3158
- 
+
+Python (tkinter): https://github.com/bdshahab/iap_tkinter
+
 Source code:
 
 For Defold game engine: https://github.com/bdshahab/iap_defold
