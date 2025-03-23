@@ -8,6 +8,8 @@ Defold: https://defold.com/assets/crypto_iap
 
 Godot: https://godotengine.org/asset-library/asset/3158
 
+Python (PySide6): https://github.com/bdshahab/iap_qt
+
 Python (tkinter): https://github.com/bdshahab/iap_tkinter
 
 Source code:
