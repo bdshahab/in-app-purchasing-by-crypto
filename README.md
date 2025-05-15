@@ -1,16 +1,18 @@
 # In-app purchasing by cryptocurrency
 
-(It's not a plugin!)
-
 Published in Python and 2 Game Engines:
+
+Python (PySide6): https://github.com/bdshahab/iap_qt
+
+Python (tkinter): https://github.com/bdshahab/iap_tkinter
+
+The game engine model is no longer being updated!
+For updates, please refer to the Python model!
 
 Defold: https://defold.com/assets/crypto_iap
 
 Godot: https://godotengine.org/asset-library/asset/3158
 
-Python (PySide6): https://github.com/bdshahab/iap_qt
-
-Python (tkinter): https://github.com/bdshahab/iap_tkinter
 
 <img width="859" alt="1" src="https://raw.githubusercontent.com/bdshahab/in-app-purchasing-by-crypto/refs/heads/main/pyside6_1.png">
 
