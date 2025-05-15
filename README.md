@@ -12,12 +12,12 @@ Python (PySide6): https://github.com/bdshahab/iap_qt
 
 Python (tkinter): https://github.com/bdshahab/iap_tkinter
 
-<img width="859" alt="1" src="https://github.com/bdshahab/in-app-purchasing-by-crypto/assets/17976016/e7ee57fe-dc7a-401c-8395-848e584e5ec8">
+<img width="859" alt="1" src="https://raw.githubusercontent.com/bdshahab/in-app-purchasing-by-crypto/refs/heads/main/pyside6_1.png">
 
 
 A simple way to enable in-app purchases using cryptocurrencies.
 
-<img width="866" alt="2" src="https://github.com/bdshahab/in-app-purchasing-by-crypto/assets/17976016/a019ad1c-8f7f-4c4a-a220-5c55add9323f">
+<img width="866" alt="2" src="https://raw.githubusercontent.com/bdshahab/in-app-purchasing-by-crypto/refs/heads/main/pyside6_2.png">
 
 
 A video clip about this method:
@@ -28,19 +28,19 @@ https://www.youtube.com/watch?v=z6vrjm8vtMI
 Using this program's method, you can make in-app purchases using cryptocurrencies.
 
 
-Users only had limited time to finish payment.
+Users only had a limited time to finish the payment.
 
-The user picks the payment method, and then the app shows the price in that currency. Users have to send that amount of money to the address. Users have to paste [TXID] of payment in the program. The app will verify the payment with the registered price at that time.
+The user picks the payment method, and then the app shows the price in that currency. The user has to send that amount of money to the address. The user has to paste the [TXID] of the payment in the program. The app will verify the payment with the registered price at that time.
 
 # Full description of this method
 
 In-app payment using cryptocurrencies
 
-Due to various restrictive laws or sanctions, financial exchanges are not available freely and equally for everyone in the world. Still, cryptocurrencies do not have any geographical limitations, and they are not limited to anyone. App stores usually follow those rules and sanctions, so some developers cannot sell their products.
+Due to various restrictive laws or sanctions, financial exchanges are not available freely and equally for everyone worldwide. Still, cryptocurrencies do not have any geographical limitations, and they are not limited to anyone. App stores usually follow those rules and sanctions, so some developers cannot sell their products.
 
 However, those app stores also deduct a significant percentage of the sales as commissions and taxes from the income of developers! However, making in-app purchases using cryptocurrencies is possible to prevent that.
 
-In fact, with this method, the need for banks and app stores is eliminated, and as a result, no one will be under legal restrictions or sanctions and the entire income will directly go to the developers, and they will not need to pay fees and taxes.
+In fact, with this method, the need for banks and app stores is eliminated, and as a result, no one will be under legal restrictions or sanctions, and the entire income will directly go to the developers, and they will not need to pay fees and taxes.
 
 How the program works: The programmer puts the price of the program based on dollars in his program, and then the program shows the user the price of the program according to the price of the selected digital currency every time it is executed.
 
