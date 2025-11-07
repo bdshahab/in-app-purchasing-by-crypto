@@ -1,5 +1,5 @@
 https://duckduckgo.com/?q=bdshahab
-https://gist.githubusercontent.com/bdshahab/e7b7106e2ca1604a77de2602e8035c2b/raw/2a266bf9a2aaa018e430758d428e681ec2d55985/gistfile1.txt
+https://opensource.org/license/mit
 https://www.apsense.com/user/bdshahab
 https://bdshahab.blogspot.com
 https://bsky.app/profile/bdshahab.bsky.social
