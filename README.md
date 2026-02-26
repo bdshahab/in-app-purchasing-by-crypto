@@ -1,59 +1,96 @@
-# In-app purchasing by cryptocurrency
+## In-App Purchasing with Cryptocurrency
+## ⚠️ Project Status: Discontinued
 
-Published in Python and 2 Game Engines:
+This project has been officially discontinued and is no longer under active development.
+
+## Reasons for Discontinuation
+
+Many websites restrict or block automated data access, limiting the reliability of this system.
+
+Free API (Application Programming Interface) tiers often have strict rate limits and usage constraints.
+
+Independent developers without a large market face limited monetization opportunities.
+
+From a practical business perspective, advertisement-based models are generally more sustainable than cryptocurrency-based in-app purchases for small-scale projects.
+
+## 📌 About This Project
+
+This project introduced a simple method for enabling in-app purchases using cryptocurrencies, without relying on traditional banking systems or app store payment processors.
+
+The goal was to provide an alternative payment solution for developers who may face restrictions with conventional financial systems.
+
+## 🗂 Previous Implementations
+
+Older versions and related implementations are still available for reference:
 
 Python (PySide6): https://github.com/bdshahab/iap_qt
 
 Python (tkinter): https://github.com/bdshahab/iap_tkinter
 
-The game engine model is no longer being updated!
-For updates, please refer to the Python model!
+Defold Asset: https://defold.com/assets/crypto_iap
 
-Defold: https://defold.com/assets/crypto_iap
+Godot Asset: https://godotengine.org/asset-library/asset/3158
 
-Godot: https://godotengine.org/asset-library/asset/3158
+## 🎥 Demonstration Video
 
+A video explaining this method:
+https://youtu.be/SaU_2sguvbk
 
-<img width="859" alt="1" src="https://raw.githubusercontent.com/bdshahab/in-app-purchasing-by-crypto/refs/heads/main/pyside6_1.png">
+## ⚙️ How the Method Worked
 
+The developer sets a base price in USD inside the application.
 
-A simple way to enable in-app purchases using cryptocurrencies.
+When the app runs, it converts the price to the selected cryptocurrency using current exchange rates.
 
-<img width="866" alt="2" src="https://raw.githubusercontent.com/bdshahab/in-app-purchasing-by-crypto/refs/heads/main/pyside6_2.png">
+The user selects a payment method (cryptocurrency).
 
+The app displays:
 
-A video clip about this method:
+The exact payment amount
 
-[https://youtu.be/SaU_2sguvbk](https://youtu.be/1Og1Gbz9Sr8?si=FWCtn1c7Haf6Hu9i)
+The wallet address
 
+A limited time window for payment
 
-Using this program's method, you can make in-app purchases using cryptocurrencies.
+The user sends the exact amount to the provided wallet address.
 
+The user copies and submits the transaction ID (TXID / Transaction Hash).
 
-Users only had a limited time to finish the payment.
+The application verifies the transaction using public blockchain tracking services.
 
-The user picks the payment method, and then the app shows the price in that currency. The user has to send that amount of money to the address. The user has to paste the [TXID] of the payment in the program. The app will verify the payment with the registered price at that time.
+If validated within the time limit, the purchase is accepted.
 
-# Full description of this method
+## 🌍 Concept and Motivation
 
-In-app payment using cryptocurrencies
+This system was designed to:
 
-Due to various restrictive laws or sanctions, financial exchanges are not available freely and equally for everyone worldwide. Still, cryptocurrencies do not have any geographical limitations, and they are not limited to anyone. App stores usually follow those rules and sanctions, so some developers cannot sell their products.
+Provide an alternative payment method independent of traditional financial institutions.
 
-However, those app stores also deduct a significant percentage of the sales as commissions and taxes from the income of developers! However, making in-app purchases using cryptocurrencies is possible to prevent that.
+Allow global accessibility without geographic restrictions.
 
-In fact, with this method, the need for banks and app stores is eliminated, and as a result, no one will be under legal restrictions or sanctions, and the entire income will directly go to the developers, and they will not need to pay fees and taxes.
+Reduce dependency on intermediaries such as banks and app stores.
 
-How the program works: The programmer puts the price of the program based on dollars in his program, and then the program shows the user the price of the program according to the price of the selected digital currency every time it is executed.
+Avoid commission fees charged by third-party platforms.
 
-It is possible to determine the price by using one of the cryptocurrency price announcement sites by raw source code. Then, the user must deposit the desired price in that cryptocurrency to the specified account address within the time limit. Each money deposit through cryptocurrencies has a payment ID(Transaction Hash ID); The user must provide that payment ID to the app to validate it; if it is validated, the purchase will be accepted.
+Enable developers to receive payments directly.
 
-Various cryptocurrency transaction tracking sites can be used to confirm the payment.
+## 🔄 Price Handling
 
-Cryptocurrencies are free for everyone to use. Websites announcing the price of cryptocurrencies are also free for everyone to access. Websites tracking transactions are also freely accessible. As a result, programmers don't need middlemen to pay them for these financial affairs and sell their products. There is no law or sanction against this method of earning money; only accessing the Internet is enough.
+Cryptocurrency prices were retrieved from public price-tracking websites.
 
-For those cases where the price announcement site is down, a default price list has been placed on this GitHub site to be used. These default prices are in their folder (default prices) on this site.
+If the price source was unavailable, a default price list was included in this repository.
 
-Key information is updated through a special file (key_data.txt) on this GitHub site so that possible problems can be solved quickly in the future, and there is no need to produce a new program and download it to the customer.
+Default price files were stored in the default_prices directory.
 
+## 🔑 Remote Configuration
+
+Key operational data could be updated through a special configuration file:
+
+key_data.txt
+
+This allowed quick updates and issue resolution without requiring users to download a new version of the application.
+
+## 📖 Final Note
+
+Although this project is no longer maintained, the repository remains available for educational and reference purposes.
 
